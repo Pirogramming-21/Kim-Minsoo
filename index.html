@@ -75,7 +75,7 @@
     * {
       box-sizing: border-box;
     }
-    html, body{
+    html, body, form{
       margin: 0;
       padding: 0;
       background-color: yellow;
@@ -96,6 +96,7 @@
     #header {
       text-align: left;
       position: relative;
+      height: 64px;
     }
     #header-hamburger, #header-notice, #header-naverpay { 
       position: absolute;
@@ -170,7 +171,43 @@
           <div></div>
           <span class="blind">알림</span>
         </button>
-      <div id="search"></div>
+      <style>
+        #search > form {
+          display: inline-block;
+          width: 708px;
+          height: 60px;
+          border: 1px solid #03c75a;
+          border-radius: 33px;
+        }
+        #search > form > input {
+          width: 480px;
+          height: 100%;
+          padding: 17px 0;
+          border: none;
+          outline: none;
+          text-align: left;
+        }
+        #search > form a {
+          width: 68px;
+          height: 100%;
+          padding: 17px;
+          margin-right: 12px;
+        }
+        #search > form svg {
+          width: 24px;
+          height: 24px;
+        }
+      </style>
+      <div id="search">
+        <form action="">
+          <a href="#">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.273 12.845 7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"></path></svg>
+          </a>
+          <label for="search-input" class="blind">검색어 입력</label>
+          <input id="search-input" type="text">
+          <button class="blind">검색</button>
+        </form>
+      </div>
       <div id="nav"></div>
       <div id="main"></div>
     </div>
