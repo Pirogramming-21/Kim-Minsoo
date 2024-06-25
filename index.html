@@ -9,26 +9,36 @@
     html, body{
       margin: 0;
       padding: 0;
+      background-color: yellow;
     }
 
     #wrap {
-      text-align: center;
+      text-align: left;
 
     }
     #wrap-center{
       width: 1280px;
       display: inline-block;
-      background-color: yellow;
 
     }
     #main {
       height: 2000px;
     }
+    #header {
+      text-align: left;
+    }
     #header-hamburger {
       margin-top: 18px;
-      background-color: blue;
-      width: 46px;
-      height: 46px;
+      padding: 10px;
+      display: inline-block;
+    }
+    #header-hamburger > div {
+      background-image: url(./sp_main.png);
+      width: 32px;
+      height: 32px;
+      background-repeat: no-repeat;
+      background-size: 442px 434px;
+      background-position: -326px -161px
     }
   </style>
 </head>
@@ -36,7 +46,9 @@
   <div id="wrap">
     <div id="wrap-center">
       <div id="header"></div>
-        <div id="header-hamburger"></div>
+        <div id="header-hamburger">
+          <div></div>
+        </div>
       <div id="search"></div>
       <div id="nav"></div>
       <div id="main"></div>
