@@ -72,6 +72,9 @@
       --color_shop: #9858f5;
       --color_shop_rgb: 152, 88, 245;
     }
+    * {
+      box-sizing: border-box;
+    }
     html, body{
       margin: 0;
       padding: 0;
@@ -94,17 +97,16 @@
       text-align: left;
       position: relative;
     }
-    #header-hamburger {
+    #header-hamburger, #header-notice, #header-naverpay { 
       position: absolute;
       top: 18px;
-      left: -10px;
       padding: 10px;
-      display: inline-block;
+      display: block;
       background: none;
       border: none;
       cursor: pointer;
     }
-    #header-hamburger:hover::before {
+    #header-hamburger:hover::before, #header-notice:hover::before, #header-naverpay:hover::before {
       position:absolute;
       content: '';
       z-index: 0;
@@ -115,18 +117,32 @@
       background-color: var(--color_option_bg);
       border-radius: 50%;
     }
-    #header-hamburger:hover > div {
-      position: relative;
-      left: 1px;
-    }
-    #header-hamburger > div {
+    #header-hamburger > div, #header-notice > div, #header-naverpay> div {
       background-image: url(./sp_main.png);
       width: 32px;
       height: 32px;
       z-index: 1;
       background-repeat: no-repeat;
       background-size: 442px 434px;
+    }
+    #header-hamburger {
+      left: -10px;
+    }
+    #header-hamburger > div {
       background-position: -326px -161px
+    }
+    #header-naverpay {
+      right: 42px;
+      padding: 10px 8px;
+    }
+    #header-naverpay > div {
+      background-position: -285px -107px
+    }
+    #header-notice {
+      right: -10px;
+    }
+    #header-notice > div {
+      background-position: -285px -173px;
     }
     .blind {
       position: absolute;
@@ -144,7 +160,15 @@
       <div id="header"></div>
         <button id="header-hamburger">
           <div></div>
-          <span class="blind"></span>
+          <span class="blind">확장 영역</span>
+        </button>
+        <button id="header-naverpay">
+          <div></div>
+          <span class="blind"네이버 페이></span>
+        </button>
+        <button id="header-notice">
+          <div></div>
+          <span class="blind">알림</span>
         </button>
       <div id="search"></div>
       <div id="nav"></div>
