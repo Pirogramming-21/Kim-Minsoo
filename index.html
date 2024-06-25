@@ -107,6 +107,7 @@
     #header-hamburger:hover::before {
       position:absolute;
       content: '';
+      z-index: 0;
       left: 1px;
       top: 1px;
       width: 44px;
@@ -122,9 +123,18 @@
       background-image: url(./sp_main.png);
       width: 32px;
       height: 32px;
+      z-index: 1;
       background-repeat: no-repeat;
       background-size: 442px 434px;
       background-position: -326px -161px
+    }
+    .blind {
+      position: absolute;
+      clip: rect(0 0 0 0);
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -134,6 +144,7 @@
       <div id="header"></div>
         <button id="header-hamburger">
           <div></div>
+          <span class="blind"></span>
         </button>
       <div id="search"></div>
       <div id="nav"></div>
