@@ -6,24 +6,37 @@
   <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
   <title>NAVER</title>
   <style>
+    html, body{
+      margin: 0;
+      padding: 0;
+    }
+
     #wrap {
       text-align: center;
 
     }
     #wrap-center{
       width: 1280px;
+      display: inline-block;
       background-color: yellow;
 
     }
     #main {
       height: 2000px;
     }
+    #header-hamburger {
+      margin-top: 18px;
+      background-color: blue;
+      width: 46px;
+      height: 46px;
+    }
   </style>
 </head>
 <body>
   <div id="wrap">
-    <div id="wrap-center" style="display: inline-block;">
+    <div id="wrap-center">
       <div id="header"></div>
+        <div id="header-hamburger"></div>
       <div id="search"></div>
       <div id="nav"></div>
       <div id="main"></div>
