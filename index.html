@@ -880,15 +880,44 @@
       padding: 10px 0;
     }
     #main-shopping-grid {
-      margin-top: 20px;
+      margin-top: 18px;
       display: grid;
-      grid-template-rows: 90px 95px 185px;
+      grid-template-rows: 90px 95px 170px;
       grid-template-columns: 1fr 1fr 1fr 1fr 250px;
       column-gap: 20px;
+    }
+    #main-shopping-grid .item {
+      line-height: 20px;
+      letter-spacing: -.8px;
+      font-size: 1.6rem;
+    }
+    #main-shopping-grid .item > .image {
+      width: 115px;
+      height: 115px;
+      border-radius: 4px;
+      background-color: gray;
+      margin-bottom: 10px;
+    }
+    #main-shopping-grid .item > .text {
+      text-align: left;
     }
     .item:nth-child(1), .item:nth-child(2), .item:nth-child(3), .item:nth-child(4){
       grid-row: 1 / span 2;
     
+    }
+    .item:nth-child(5), .item:nth-child(6), .item:nth-child(11) > div:first-child {
+      padding: 10px 12px 5px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0,.05);
+      background: rgba(245, 248, 251,.6);
+
+    }
+    .item:nth-child(6) {
+      margin: 11px 0;
+    }
+    .item:nth-child(11) > div:first-child {
+      margin-bottom: 10px;
+      height: 135px;
     }
   </style>
 </head>
@@ -976,17 +1005,44 @@
             </div>
           </div>
           <div id="main-shopping-grid">
-            <div class="item">1</div>
-            <div class="item">2</div>
-            <div class="item">3</div>
-            <div class="item">4</div>
+            <div class="item">
+              <div class="image"></div>
+              <div class="text">독보적인 퀄리티 우린품격을입어요</div>
+            </div>
+            <div class="item">
+              <div class="image"></div>
+              <div class="text">독보적인 퀄리티 우린품격을입어요</div>
+            </div>
+            <div class="item">
+              <div class="image"></div>
+              <div class="text">독보적인 퀄리티 우린품격을입어요</div>
+            </div>
+            <div class="item">
+              <div class="image"></div>
+              <div class="text">독보적인 퀄리티 우린품격을입어요</div>
+            </div>
             <div class="item">5</div>
             <div class="item">6</div>
-            <div class="item">7</div>
-            <div class="item">8</div>
-            <div class="item">9</div>
-            <div class="item">10</div>
-            <div class="item">11</div>
+            <div class="item">
+              <div class="image"></div>
+              <div class="text">독보적인 퀄리티 우린품격을입어요</div>
+            </div>
+            <div class="item">
+              <div class="image"></div>
+              <div class="text">독보적인 퀄리티 우린품격을입어요</div>
+            </div>
+            <div class="item">
+              <div class="image"></div>
+              <div class="text">독보적인 퀄리티 우린품격을입어요</div>
+            </div>
+            <div class="item">
+              <div class="image"></div>
+              <div class="text">독보적인 퀄리티 우린품격을입어요</div>
+            </div>
+            <div class="item">
+              <div></div>
+              <div>아웃렛 쇼핑 득템찬스! 시즌오프SALE</div>
+            </div>
           </div>
         </div>
         <footer>
