@@ -879,6 +879,17 @@
       margin-left: auto;
       padding: 10px 0;
     }
+    #main-shopping-grid {
+      margin-top: 20px;
+      display: grid;
+      grid-template-rows: 90px 95px 185px;
+      grid-template-columns: 1fr 1fr 1fr 1fr 250px;
+      column-gap: 20px;
+    }
+    .item:nth-child(1), .item:nth-child(2), .item:nth-child(3), .item:nth-child(4){
+      grid-row: 1 / span 2;
+    
+    }
   </style>
 </head>
 <body>
@@ -965,6 +976,17 @@
             </div>
           </div>
           <div id="main-shopping-grid">
+            <div class="item">1</div>
+            <div class="item">2</div>
+            <div class="item">3</div>
+            <div class="item">4</div>
+            <div class="item">5</div>
+            <div class="item">6</div>
+            <div class="item">7</div>
+            <div class="item">8</div>
+            <div class="item">9</div>
+            <div class="item">10</div>
+            <div class="item">11</div>
           </div>
         </div>
         <footer>
