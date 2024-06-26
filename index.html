@@ -75,14 +75,19 @@
     * {
       box-sizing: border-box;
     }
-    html, body, form{
+    html, body {
       font-size: 10.5px;
       line-height: 10.5px;
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
+      letter-spacing: -0.4px;
     }
+    form, ul {
+      margin: 0;
+      padding: 0;
 
+    }
     #wrap {
       text-align: left;
 
@@ -112,9 +117,9 @@
     #header-hamburger:hover::before, #header-notice:hover::before, #header-naverpay:hover::before {
       position:absolute;
       content: '';
-      z-index: 0;
-      left: 1px;
-      top: 1px;
+      z-index: -1;
+      left: 3px;
+      top: 4px;
       width: 44px;
       height: 44px;
       background-color: var(--color_option_bg);
@@ -316,6 +321,9 @@
         </form>
       </div>
       <style>
+        #nav {
+          margin-top: 12px;
+        }
         #nav > ul {
           display: flex;
           list-style: none;
@@ -325,6 +333,31 @@
         }
         #nav a {
           text-decoration: none;
+          text-align: center;
+        }
+        #nav a div{
+          width: 44px;
+          height: 44px;
+          margin: 0 auto;
+          position: relative;
+          text-align: center;
+          display: inline-flex;
+        }
+        #nav a div::after{
+          background-image: url(https://pm.pstatic.net/resources/asset/sp_main.712d35ae.png);
+          background-size: 442px 434px;
+          background-position: -244px -41px;
+          background-repeat: no-repeat;
+          width: 40px;
+          height: 40px;
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          margin: auto;
         }
         #nav a:visited {
           color: black;
@@ -334,13 +367,56 @@
           margin-left: -10.5px;
 
         }
+        #nav li a div::before{
+          content: "";
+          display: block;
+          position: absolute;
+          top: -1px;
+          left: -3px;
+          background-image: url(https://pm.pstatic.net/resources/asset/sp_main.712d35ae.png);
+          background-size: 442px 434px;
+          background-position: -193px 0px;
+          background-repeat: no-repeat;
+          width: 50px;
+          height: 50px;
+        }
         #nav li:nth-of-type(1){
           margin-left: 0;
         }
-        #nav li:nth-of-type(2){
-          
+        #nav li:nth-of-type(1) a div::after {
+          background-position: -244px -41px;
         }
-        #nav li:nth-of-type(3){
+        #nav li:nth-of-type(2) a div::after {
+          background-position: -86px -184px;
+        }
+        #nav li:nth-of-type(3) a div::after {
+          background-position: -45px -184px;
+        }
+        #nav li:nth-of-type(4) a div::after {
+          background-position: -164px -229px;
+        }
+        #nav li:nth-of-type(5) a div::after {
+          background-position: -82px -229px;
+        }
+        #nav li:nth-of-type(6) a div::after {
+          background-position: -205px -229px;
+        }
+        #nav li:nth-of-type(7) a div::after {
+          background-position: -123px -229px;
+        }
+        #nav li:nth-of-type(8) a div::after {
+          background-position: -244px -82px;
+          top: -2px;  
+        }
+        #nav li:nth-of-type(9) a div::after {
+          background-position: -285px 0px;
+        }
+        #nav li:nth-of-type(10) a div::after {
+          background-position: -41px -229px;
+        }
+        #nav li a span {
+          display: inline-block;
+          margin-top: 7px;
           
         }
       </style>
@@ -398,12 +474,6 @@
             <a href="">
               <div></div>
               <span>웹툰</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <div></div>
-              <span>치지직</span>
             </a>
           </li>
           <li>
