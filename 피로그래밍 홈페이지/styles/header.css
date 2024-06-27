@@ -2,17 +2,18 @@ body {
   background-color: black;
   color: white;
 }
-main{
+
+main {
   min-height: 100vh;
-  background-color: gray;
+  background-color: antiquewhite;
 }
+
 #main-header {
   display: flex;
   justify-content: center;
   align-items: center;
   height: var(--header-height);
 }
-
 .main-header--container {
   width: min(100%, 1200px);
   display: flex;
@@ -22,10 +23,10 @@ main{
 }
 .main-header--container > ul {
   display: flex;
+  align-items: center;
   font-size: 1.8rem;
-  gap: 2rem;
+  gap: 20px;
 }
-
 .main-header--container > ul > li:hover {
   color: var(--green);
 }

@@ -1,52 +1,50 @@
-
 #hamburger-icon {
-  width: 30px;
-  height: 25px;
   display: flex;
   flex-direction: column;
+  width: 30px;
+  height: 25px;
   justify-content: space-between;
 }
-
+#hamburger-icon > input[type="checkbox"] {
+  display: none;
+}
 #hamburger-icon > div {
   height: 3px;
   background-color: white;
   transition: 0.3s;
 }
 
-#hamburger-icon > input[type="checkbox"]:checked ~ div:nth-of-type(1){
+#hamburger-icon > input[type="checkbox"]:checked ~ div:nth-of-type(1) {
   transform: rotate(48deg);
   transform-origin: 0 0;
 }
-
-#hamburger-icon > input[type="checkbox"]:checked ~ div:nth-of-type(2){
+#hamburger-icon > input[type="checkbox"]:checked ~ div:nth-of-type(2) {
   display: none;
 }
-
-#hamburger-icon > input[type="checkbox"]:checked ~ div:nth-of-type(3){
+#hamburger-icon > input[type="checkbox"]:checked ~ div:nth-of-type(3) {
   transform: rotate(-48deg);
   transform-origin: 0 0;
 }
 
-@media screen and (min-width: 768px) {
-  hamburger-icon {
-    display: none;
-  }  
-}
-
 @media screen and (max-width: 768px) {
-  .main-header--container ul {
+  .main-header--container > ul {
     display: none;
   }
-  .sidebar{
+  .sidebar {
     width: 300px;
     height: calc(100vh - var(--header-height));
+    background-color: var(--gray);
     position: fixed;
-    top: var(--header-height);
-    background-color: aliceblue;
     right: -300px;
+    top: var(--header-height);
     transition: 0.3s;
   }
   #hamburger-icon > input[type="checkbox"]:checked ~ .sidebar {
     right: 0;
+  }
+}
+@media screen and (min-width: 769px) {
+  #hamburger-icon {
+    display: none;
   }
 }
