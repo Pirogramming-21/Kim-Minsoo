@@ -91,6 +91,7 @@
 .project-container:hover {
   top: -2px;
 }
+
 .project-container:hover .project-pic img {
   width: 110%;
 
@@ -198,8 +199,12 @@
 }
 .footer-contact a {
   display: flex;
+  position: relative;
   align-items: center;
   gap: 10px;
+}
+.footer-contact a:hover {
+  top: -2px;
 }
 .emoji {
   width: 30px;
