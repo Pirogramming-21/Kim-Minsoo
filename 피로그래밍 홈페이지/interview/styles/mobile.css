@@ -76,6 +76,7 @@
   font-size: 2.2rem;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 1.6rem;  
 }
 .next, .prev{
   font-size: 1.6rem;
@@ -138,11 +139,19 @@
   margin-bottom: 5px;
 }
 .type-non-major {
+  background-color: #c54422;
+}
+.type-major {
+  background-color: #2188b6;
+}
+.type-double-major{
+  background-color: #35a67b;
+}
+.type-non-major, .type-major, .type-double-major{
   margin-bottom: 5px;
-  background-color: orange;
-  width: 100px;
-  height: 50px;
-  border-radius: 3px;
+  padding: 6px 8px;
+  border-radius: 5px;
+  position: relative;
 }
 .interview-explain {
   font-size: 1.6rem;
@@ -208,4 +217,18 @@ footer {
   font-size: 1.2rem;
   text-align: center;
   padding: 1.6rem;
+}
+
+@media screen and (max-width: 850px) {
+  .interview-contents {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+}
+
+@media screen and (max-width: 600px) {
+  .interview-contents {
+    grid-template-columns: 1fr;
+  }
+  
 }
