@@ -1,0 +1,38 @@
+<svg
+width="40"
+height="40"
+viewBox="0 0 47 47"
+fill="none"
+xmlns="http://www.w3.org/2000/svg"
+>
+<circle
+    cx="12.974"
+    cy="12.974"
+    r="12.974"
+    fill="#49BF4D"
+    fill-opacity="0.6"
+/>
+<ellipse
+    cx="12.974"
+    cy="33.7812"
+    rx="12.974"
+    ry="13.2188"
+    fill="#0BEC12"
+    fill-opacity="0.8"
+/>
+<circle
+    cx="34.0262"
+    cy="12.974"
+    r="12.974"
+    fill="#0BEC12"
+    fill-opacity="0.8"
+/>
+<ellipse
+    cx="34.0262"
+    cy="33.7812"
+    rx="12.974"
+    ry="13.2188"
+    fill="#49BF4D"
+    fill-opacity="0.8"
+/>
+</svg>
