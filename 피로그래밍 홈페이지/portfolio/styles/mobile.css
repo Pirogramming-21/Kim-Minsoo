@@ -93,17 +93,19 @@
 }
 
 .project-container:hover .project-pic img {
-  width: 110%;
+  transform: scale(1.1);
 
 }
-.project-container:hover .project-more > div:nth-child(1){
+.project-container:hover .project-more div:nth-child(1){
   width: 50%;
   margin-right: auto;
+  transition: 0.3s;
 }
 
-.project-container:hover .project-more > div:nth-child(3){
+.project-container:hover .project-more div:nth-child(3){
   width: 50%;
   margin-left: auto;
+  transition: 0.3s
 
 }
 .project-more {
