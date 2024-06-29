@@ -1,0 +1,21 @@
+@import "./reset.css";
+
+:root {
+  --gray1:lightgray;
+  --gray2: gray;
+  --main-border: 1px solid var(--gray1);
+}
+/* 
+main > div:nth-child(odd){
+  background-color: var(--gray1);
+} */
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  font-size: 1.25rem;
+  height: 2rem;
+  align-items: center;
+  border-bottom: var(--main-border);
+}

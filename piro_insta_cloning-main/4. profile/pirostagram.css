@@ -1,0 +1,66 @@
+@import "./reset.css";
+
+:root {
+  --gray1:lightgray;
+  --gray2: gray;
+  --main-border: 1px solid var(--gray1);
+}
+/* 
+main > div:nth-child(odd){
+  background-color: var(--gray1);
+} */
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  font-size: 1.25rem;
+  height: 2rem;
+  align-items: center;
+  border-bottom: var(--main-border);
+}
+
+/* profile */
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem 1rem;
+}
+
+.profile__top{
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.profile__img {
+  margin-right: 1rem;
+}
+
+.profile__img >img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: var(--main-border);
+  padding: 3px;
+}
+
+.profile__right {
+  display: flex;
+  flex-direction: column;
+  width:100%;
+}
+
+.profile__username {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.profile__btn > button {
+  width: 100%;
+  background-color: white;
+  border: var(--main-border);
+  padding: 0.3rem 0;
+  border-radius: 5px;
+}
