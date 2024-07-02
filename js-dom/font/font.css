@@ -1,0 +1,52 @@
+@font-face {
+  font-family: 'NanumSquareNeoVariable';
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.eot);
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.ttf) format("truetype");
+}
+
+html {
+  font-size: 62.5%;
+  font-family: 'NanumSquareNeoVariable';
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.text > h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+#slider {
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background-color: black;
+}
+
+.slider-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.slider-layout > div {
+  padding: 0 30px;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+#slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: black;
+  cursor: pointer;
+}

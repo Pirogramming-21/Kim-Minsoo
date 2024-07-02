@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>채팅방</title>
+  <link rel="stylesheet" href="./chatroom.css">
+  <link rel="stylesheet" href="./reset.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="chat-room">
+    <!-- 헤더 -->
+    <header id="chat-header">
+      <div class="icon-left">
+        <i class="ri-arrow-left-s-line" id="back"></i>
+        <span>31</span>
+      </div>
+      <h1>교육팀장님</h1>
+      <div class="icon-right">
+        <i class="ri-search-line"></i>
+        <i class="ri-menu-line"></i>
+      </div>
+    </header>
+    <!-- 채팅 -->
+    <section id="chat-bubble">
+      <div class="my-bubble-content">
+        <div class="my-bubble">
+          안녕하세요
+        </div>
+      </div>
+      <div class="your-bubble">
+        <div class="profile">
+          <img src="./profile.png" alt="">
+        </div>
+        <div class="bubble-content">
+          <div class="name">교육팀장님</div>
+          <div class="bubble">
+            반가워요
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 입력창 -->
+    <footer id="chat-input-footer">
+      <i class="ri-add-line"></i>
+      <div id="chat-input-container">
+        <input type="text" name="content" id="chat-input">
+        <i class="ri-user-smile-line"></i>
+        <i class="ri-hashtag" id="hashtag"></i>
+        <button type="button" id="btn-send">
+          <i class="ri-arrow-up-line"></i>
+        </button>
+      </div>
+    </footer>
+  </div>
+  <script src="./chatroom.js"></script>
+</body>
+</html>
