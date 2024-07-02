@@ -1,0 +1,22 @@
+#main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 5rem;
+
+}
+
+#main > #cnt {
+  margin: 0 3rem;
+}
+
+#main > #minus,
+#main > #plus {
+  cursor: pointer;
+}
+
+#main > #minus:hover,
+#main > #plus:hover {
+  opacity: 0.5;
+}

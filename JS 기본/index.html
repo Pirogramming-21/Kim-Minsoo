@@ -9,12 +9,25 @@
 </head>
 <body>
   <div>피로그래밍이 태어난 년도는?</div>
-  <input type="text" name="" id="">
-  <button></button>
+  <input type="text" name="" id="value-input">
+  <button id="submit-btn"></button>
   <script>
    // 버튼 태그를 눌렀을 때 input 태그 안에 있는 값이 2014인지 확인
    // 아니라면 버튼을 누른 횟수가 5회 이상인지 확인
    // 2014라면 성공, 아니라면 실패 알럿창을 띄워줌
+   let count = 0;
+  document.getElementById('submit-btn').addEventListener('click', function() {
+    count += 1;
+    console.log(count)
+    if(document.getElementById('value-input').value=='2014') {
+        alert("성공");
+    }
+    else if(count >= 5) {
+        alert("입력 가능 횟수를 초과했습니다.");
+    }
+});
+
+
   </script>
 
 </body>
