@@ -10,41 +10,26 @@
   /* size */
   --base-space: 8px;
   --size-button: 60px;
-  --font-size: 18px;
   --size-border: 4px;
   --size-thumbnail: 50px;
+  --font-size: 18px;
 
-  /* animation duration */
-  --annimation-duration: 300ms;
-}
-
-* {
-  box-sizing: border-box;
+  /* annimation */
+  --animation-duration: 300ms;
 }
 
 body {
+  height: 100vh;
   background-color: var(--color-black);
   display: flex;
-  height: 100vh;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .logo {
   cursor: pointer;
-  transition: transform var(--annimation-duration) ease;
-
-}
-
-.btn-layout {
-  display: inline-flex;
-  align-items: center;
-}
-
-.logo:hover, 
-.btn:hover {
-  transform: scale(1.1);
+  transition: transform var(--animation-duration) ease;
 }
 
 .btn {
@@ -52,8 +37,18 @@ body {
   border: none;
   outline: none;
   cursor: pointer;
-  transition: transform var(--annimation-duration) ease;
+  transition: transform var(--animation-duration) ease;
   margin-right: var(--base-space);
+}
+
+.btn:hover,
+.logo:hover {
+  transform: scale(1.1);
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
 }
 
 .imgBtn {
@@ -63,9 +58,8 @@ body {
 
 .colorBtn {
   font-size: var(--font-size);
-  padding: calc(var(--base-space)*2);
+  padding: calc(var(--base-space) * 2);
   border-radius: var(--size-border);
-
 }
 
 .blue {
@@ -80,11 +74,6 @@ body {
   background-color: var(--color-pink);
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-}
-
 .items {
   width: 60%;
   height: 60%;
@@ -93,26 +82,25 @@ body {
   overflow-y: scroll;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
-.item{
+.item {
   background-color: var(--color-white);
   display: flex;
   align-items: center;
   padding: var(--base-space);
-  margin-bottom: var(--base-space)
+  margin-bottom: var(--base-space);
 }
 
-.item-thumbnail {
+.item.invisible {
+  background-color: var(--color-white);
+  display: none;
+}
+
+.item__thumbnail {
   width: var(--size-thumbnail);
   height: var(--size-thumbnail);
-
 }
 
-.item-description {
+.item__description {
   margin-left: var(--base-space);
   font-size: var(--font-size);
 }
-
