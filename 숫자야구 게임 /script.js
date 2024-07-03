@@ -50,7 +50,7 @@ let attempts = 10;
 document.getElementById('attempts').textContent = attempts;
 
 // 각 입력칸에 입력된 숫자를 가져와 정답 여부를 확인하고 틀렸을 시 남은 횟수를 차감하는 함수
-const checkNumbers = () => {
+const check_numbers = () => {
   let number1 = document.getElementById('number1').value;
   let number2 = document.getElementById('number2').value;
   let number3 = document.getElementById('number3').value;
