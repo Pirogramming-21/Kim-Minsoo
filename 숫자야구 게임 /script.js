@@ -10,11 +10,21 @@ function makeRandomNumbers() {
   }
   return numbers;
 }
-
+// answer에 난수 저장
 let answer = makeRandomNumbers();
 console.log(answer)
 
-// 한 칸에 숫자 하나가 입력되면 다음 칸으로 이동하는 함수
+// enter키를 누르면 확인하기 버튼의 온클릭 이벤트 발생하도록 
+// getElementsByClassName는 htmcollectiond을 반환하므로, 
+// 특정 요소에만 접근하려면 인덱스를 사용해야 함
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    document.getElementsByClassName('submit-button')[0].click();
+  }
+});
+
+
+// 한 칸에 숫자 하나가 입력되면 자동으로 다음 칸으로 이동하는 함수
 const moveFocus = (current, next) => {
   if (current.value.length === 1) {
       next.focus();
@@ -33,16 +43,17 @@ document.getElementById('number3').addEventListener('input', () => {
   //마지막 칸이므로 함수 필요 x
 });
 
+// 남은 횟수 지정
+let attempts = 5;
+
 // 각 입력칸에 입력된 숫자를 가져와 정답 여부를 확인하고 틀렸을 시 남은 횟수를 차감하는 함수
-
-let attempts = 10;
-
 const checkNumbers = () => {
   let number1 = document.getElementById('number1').value;
   let number2 = document.getElementById('number2').value;
   let number3 = document.getElementById('number3').value;
 
-  let inputs = [number1, number2, number3];
+  // 정수형으로 바꿔주어야 answer과 비교 가능했다 
+  let inputs = [parseInt(number1), parseInt(number2), parseInt(number3)];
   let strike = 0;
   let ball = 0;
 
@@ -57,15 +68,28 @@ const checkNumbers = () => {
   const resultDiv = document.getElementById('results');
   const resultText = document.createElement('div')
   resultText.classList.add('check-result');
-  resultText.innerHTML = `
-  <div class="left">${number1} ${number2} ${number3}</div>
-    :
-    <div class="right">
-      ${strike} <div class="strike num-result">S</div>
-      ${ball} <div class="ball num-result">B</div>
-      <div class="out num-result">O</div>
-    </div>
-`;
+
+  if (strike === 0 && ball === 0) {
+    // 아웃인 경우
+    resultText.innerHTML = `
+      <div class="left">${number1} ${number2} ${number3}</div>
+      :
+      <div class="right">
+        <div class="out num-result">O</div>
+      </div>
+    `;
+  } else {
+    // 스트라이크 또는 볼이 있는 경우
+    resultText.innerHTML = `
+      <div class="left">${number1} ${number2} ${number3}</div>
+      :
+      <div class="right">
+        ${strike} <div class="strike num-result">S</div>
+        ${ball} <div class="ball num-result">B</div>
+      </div>
+    `;
+  }
+
 resultDiv.appendChild(resultText);
 
 attempts--;
@@ -76,7 +100,8 @@ if (strike === 3) {
 } else if (attempts <= 0) {
   document.getElementById('game-result-img').src = './fail.png';
 }
-// 초기화 
+
+// 값 입력 후 초기화
 document.getElementById('number1').value = '';
 document.getElementById('number2').value = '';
 document.getElementById('number3').value = '';

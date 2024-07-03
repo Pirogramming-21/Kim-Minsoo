@@ -89,12 +89,15 @@ body {
 }
 .check-result{
     display: flex;
+    align-items: center;
     justify-content: space-between;
     margin: 20px;
 }
 
-.resultDiv {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.left {
+    margin-right: 10px;
+}
+
+.right {
+    margin-left: 10px;
 }
