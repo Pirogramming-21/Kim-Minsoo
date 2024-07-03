@@ -76,10 +76,19 @@ const checkNumbers = () => {
       ball++;
     } 
   }
-
+  
+  const resultDisplay = document.querySelector('.result-display');
   const resultDiv = document.getElementById('results');
   const resultText = document.createElement('div')
   resultText.classList.add('check-result');
+  resultDiv.appendChild(resultText);
+
+  //스크롤이 자동으로 움직이긴 하나 최하단으로 안 움직임
+  //setTimeout을 통해 DOM이 업데이트 된 이후에 실행되도록 만들었더니 해결
+  setTimeout(() => {
+    resultDisplay.scrollTop = resultDisplay.scrollHeight;
+  }, 0);
+
 
   if (strike === 0 && ball === 0) {
     // 아웃인 경우
@@ -102,11 +111,10 @@ const checkNumbers = () => {
     `;
   }
 
-resultDiv.appendChild(resultText);
-
 attempts--;
 document.getElementById('attempts').innerText = attempts;
 
+//성공 혹은 실패 시 이미지를 띄우고 확인하기 버튼을 비활성화
 if (strike === 3) {
   document.getElementById('game-result-img').src = './success.png';
   document.getElementsByClassName('submit-button')[0].style.display = 'none';
