@@ -46,7 +46,7 @@ document.getElementById('number3').addEventListener('input', () => {
 });
 
 // 남은 횟수 지정
-let attempts = 10;
+let attempts = 9;
 document.getElementById('attempts').textContent = attempts;
 
 // 각 입력칸에 입력된 숫자를 가져와 정답 여부를 확인하고 틀렸을 시 남은 횟수를 차감하는 함수
