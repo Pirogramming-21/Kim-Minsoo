@@ -12,13 +12,15 @@ function makeRandomNumbers() {
 }
 // answer에 난수 저장
 let answer = makeRandomNumbers();
+
+// 답 확인
 console.log(answer)
 
 // enter키를 누르면 확인하기 버튼의 온클릭 이벤트 발생하도록 
-// getElementsByClassName는 htmcollectiond을 반환하므로, 
+// getElementsByClassName는 htmlcollection을 반환하므로, 
 // 특정 요소에만 접근하려면 인덱스를 사용해야 함
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') {
+  if (event.key === 'Enter' && attempts > 0) {
     document.getElementsByClassName('submit-button')[0].click();
   }
 });
@@ -44,13 +46,23 @@ document.getElementById('number3').addEventListener('input', () => {
 });
 
 // 남은 횟수 지정
-let attempts = 5;
+let attempts = 10;
+document.getElementById('attempts').textContent = attempts;
 
 // 각 입력칸에 입력된 숫자를 가져와 정답 여부를 확인하고 틀렸을 시 남은 횟수를 차감하는 함수
 const checkNumbers = () => {
   let number1 = document.getElementById('number1').value;
   let number2 = document.getElementById('number2').value;
   let number3 = document.getElementById('number3').value;
+
+  // 입력창이 다 채워지지 않은 경우 숫자를 확인하지 않고 초기화
+  if ((number1 === '' || number2 === '' || number3 === '')) {
+    document.getElementById('number1').value = '';
+    document.getElementById('number2').value = '';
+    document.getElementById('number3').value = '';
+    document.getElementById('number1').focus();
+    return;
+  }
 
   // 정수형으로 바꿔주어야 answer과 비교 가능했다 
   let inputs = [parseInt(number1), parseInt(number2), parseInt(number3)];
@@ -97,14 +109,17 @@ document.getElementById('attempts').innerText = attempts;
 
 if (strike === 3) {
   document.getElementById('game-result-img').src = './success.png';
+  document.getElementsByClassName('submit-button')[0].style.display = 'none';
 } else if (attempts <= 0) {
   document.getElementById('game-result-img').src = './fail.png';
+  document.getElementsByClassName('submit-button')[0].style.display = 'none';
 }
 
 // 값 입력 후 초기화
 document.getElementById('number1').value = '';
 document.getElementById('number2').value = '';
 document.getElementById('number3').value = '';
+// 포커스도 다시 줘야 함
 document.getElementById('number1').focus();
 
 }
