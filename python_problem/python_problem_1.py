@@ -13,9 +13,10 @@ while True:
 
   for i in range(1, count_A + 1):
     num += 1
-    print(f"player A : {num}")
+    print(f"playerA : {num}")
 
   if num == 31:
+    print("PlayerB win!")
     break
 
   while True:
@@ -30,7 +31,8 @@ while True:
 
   for i in range(1, count_B + 1):
     num += 1
-    print(f"player B : {num}")
+    print(f"playerB : {num}")
 
   if num == 31:
+    print("PlayerA win!")
     break
