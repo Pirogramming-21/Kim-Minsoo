@@ -83,7 +83,7 @@ const check_numbers = () => {
   resultText.classList.add('check-result');
   resultDiv.appendChild(resultText);
 
-  //스크롤이 자동으로 움직이긴 하나 최하단으로 안 움직임
+  //문제 상황: 스크롤이 자동으로 움직이긴 하나 최하단으로 안 움직임
   //setTimeout을 통해 DOM이 업데이트 된 이후에 실행되도록 만들었더니 해결
   setTimeout(() => {
     resultDisplay.scrollTop = resultDisplay.scrollHeight;
