@@ -123,3 +123,8 @@
 .devkev00 {
   font-weight: 700;
 }
+
+.lap-time {
+  flex-grow: 1;
+  text-align: center;
+}
