@@ -1,5 +1,6 @@
 let timer;
 let milliseconds = 0;
+let hasLapTimes = false;
 
 const startTimer = () => {
   clearInterval(timer);
@@ -65,6 +66,10 @@ const addLapTime = (lapTime) => {
 
   // lap-time-records에 lapTimeItem 추가
   lapTimeRecord.appendChild(lapTimeItem);
+
+  // 랩타임 추가 후 상태 업데이트
+  hasLapTimes = true;
+  updateCheckboxKing();
 }
 
 // 체크박스 토글 함수
@@ -83,6 +88,7 @@ const removeCheckedLapTimes = () => {
       item.remove();
     }
   });
+  updateCheckboxKing();
 }
 
 // 상단의 체크박스를 클릭하면 모든 체크박스가 토글되는 함수
@@ -113,7 +119,11 @@ const updateCheckboxKing = () => {
     checkbox.classList.contains('fa-circle-check')
   );
 
-  if (allChecked) {
+  // 랩타임이 하나도 없는 상태 업데이트
+  // = 뒤에 조건에 따라 True, False가 달라짐
+  hasLapTimes = checkboxes.length > 0;
+
+  if (allChecked && hasLapTimes) {
     checkboxKing.classList.remove('fa-circle');
     checkboxKing.classList.add('fa-circle-check');
   } else {
