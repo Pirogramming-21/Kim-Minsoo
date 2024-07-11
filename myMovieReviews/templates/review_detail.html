@@ -1,0 +1,7 @@
+<h1>리뷰 디테일 페이지 입니다.</h1>
+
+{% for review in reviews %}
+<a href=""><h2>{{review.title}}, {{review.release_year}}, {{review.director}}, {{review.stars}}, <br>{{review.genre}}, {{review.rating}}, {{review.runningtime}}, {{review.content}}</h2></a>
+{% empty %}
+<p>등록된 리뷰가 없슴</p>
+{% endfor %}

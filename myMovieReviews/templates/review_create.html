@@ -1,0 +1,15 @@
+<h1>리뷰 작성하기</h1>
+
+<form action="/movie/create" method="post">
+  {% csrf_token %}
+  <input name="title" placeholder="제목" /><br>
+  <input name="director" placeholder="감독" /><br>
+  <input name="stars" placeholder="주연" /><br>
+  <input name="genre" placeholder="장르" /><br>
+  <input name="rating" placeholder="별점" /><br>
+  <input name="runningtime" placeholder="러닝타임" /><br>
+  <textarea name="content" cols="30" rows="10" placeholder="리뷰 내용을 작성하세요"></textarea>
+  <div>
+    <input type="submit" value="작성완료">
+  </div>
+</form>
