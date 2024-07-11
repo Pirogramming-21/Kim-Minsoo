@@ -1,7 +1,16 @@
 <h1>리뷰 디테일 페이지 입니다.</h1>
 
-{% for review in reviews %}
-<a href=""><h2>{{review.title}}, {{review.release_year}}, {{review.director}}, {{review.stars}}, <br>{{review.genre}}, {{review.rating}}, {{review.runningtime}}, {{review.content}}</h2></a>
-{% empty %}
-<p>등록된 리뷰가 없슴</p>
-{% endfor %}
+<a href="/movie/">my Movie reviews -> 리스트 페이지로 이동</a>
+<h1>{{ review.title }}</h1>
+<p><strong>감독:</strong> {{ review.director }}</p>
+<p><strong>주연:</strong> {{ review.stars }}</p>
+<p><strong>장르:</strong> {{ review.genre }}</p>
+<p><strong>별점:</strong> {{ review.rating }}</p>
+<p><strong>러닝타임:</strong> {{ review.runningtime }}</p>
+<p><strong>내용:</strong> {{ review.content }}</p>
+
+<a href="update/">수정</a>
+<form action="delete/" method="post">
+  {% csrf_token %}
+<input type="submit" value="삭제">
+</form>

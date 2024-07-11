@@ -1,7 +1,9 @@
 <h1>리뷰 리스트(개요) 페이지 입니다.</h1>
 
 {% for review in reviews %}
-<a href=""><h2>{{review.title}}, {{review.release_year}}, <br>{{review.genre}}, {{review.rating}}</h2></a>
+<a href="/movie/detail/{{review.id}}"><h2>{{review.title}}, {{review.release_year}}, <br>{{review.genre}}, {{review.rating}}</h2></a>
 {% empty %}
 <p>등록된 리뷰가 없슴</p>
 {% endfor %}
+
+<a href="create">새로운 리뷰 작성하기</a>

@@ -1,0 +1,15 @@
+<h1>리뷰 수정하기</h1>
+
+<form action="" method="post">
+  {% csrf_token %}
+  <input name="title" placeholder="제목" value="{{review.title}}"/><br>
+  <input name="director" placeholder="감독" value="{{review.director}}"/><br>
+  <input name="stars" placeholder="주연" value="{{review.stars}}"/><br>
+  <input name="genre" placeholder="장르" value="{{review.genre}}"/><br>
+  <input name="rating" placeholder="별점" value="{{review.rating}}"/><br>
+  <input name="runningtime" placeholder="러닝타임" value="{{review.runningtime}}"/><br>
+  <textarea name="content" cols="30" rows="10" placeholder="리뷰 내용을 작성하세요">{{review.content}}"</textarea>
+  <div>
+    <input type="submit" value="수정완료">
+  </div>
+</form>
