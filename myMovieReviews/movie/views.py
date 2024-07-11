@@ -20,6 +20,7 @@ def review_create(request):
     if request.method == "POST":
         Review.objects.create(
             title = request.POST["title"],
+            release_year = request.POST["release_year"],
             director = request.POST["director"],
             stars = request.POST["stars"],
             genre = request.POST["genre"],
@@ -34,6 +35,7 @@ def review_update(request, pk):
     review = Review.objects.get(id=pk)
     if request.method == "POST":
         review.title = request.POST["title"]
+        review.release_year = request.POST["release_year"]
         review.director = request.POST["director"]
         review.stars = request.POST["stars"]
         review.genre = request.POST["genre"]

@@ -1,9 +1,78 @@
-<h1>리뷰 리스트(개요) 페이지 입니다.</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
+    <title>myMovieReviews</title>
+  </head>
 
-{% for review in reviews %}
-<a href="/movie/detail/{{review.id}}"><h2>{{review.title}}, {{review.release_year}}, <br>{{review.genre}}, {{review.rating}}</h2></a>
-{% empty %}
-<p>등록된 리뷰가 없슴</p>
-{% endfor %}
+  <body>  
+    <h1>my<span>Movie</span>Reviews</h1>
+    <h4>devkev00</h4>
 
-<a href="create">새로운 리뷰 작성하기</a>
+    <div class="container">
+    {% for review in reviews %}
+    
+    <div class="movie-card">
+      <a href="/movie/detail/{{review.id}}">
+      <h2>{{review.title}}</h2>
+    </a>
+      <p>
+      🗓️ : {{review.release_year}}
+      <br>
+      🎬 : {{review.genre}}
+      <br>
+      ⭐️ : {{review.rating}}
+      </p>
+    </div>
+
+    {% empty %}
+    <p>등록된 리뷰가 없습니다.</p>
+    {% endfor %}
+    </div>
+
+    <a href="create">나도 리뷰 작성할래요</a> 
+  </body>
+</html>
+
+<style>
+  h4 {
+    margin-top: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    margin: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .movie-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    text-align: center;
+    margin: 16px;
+  }
+  
+  .movie-card > p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+  }
+
+  a, span {
+    text-decoration: none;
+    color: rgb(219, 23, 23);
+  }
+</style>

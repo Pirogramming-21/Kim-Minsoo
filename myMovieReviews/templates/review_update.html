@@ -3,6 +3,7 @@
 <form action="" method="post">
   {% csrf_token %}
   <input name="title" placeholder="제목" value="{{review.title}}"/><br>
+  <input name="release_year" placeholder="개봉년도" value="{{review.release_year}}"/><br>
   <input name="director" placeholder="감독" value="{{review.director}}"/><br>
   <input name="stars" placeholder="주연" value="{{review.stars}}"/><br>
   <input name="genre" placeholder="장르" value="{{review.genre}}"/><br>
