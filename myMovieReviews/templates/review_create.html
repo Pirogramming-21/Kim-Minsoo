@@ -1,16 +1,59 @@
-<h1>리뷰 작성하기</h1>
-
-<form action="/movie/create" method="post">
-  {% csrf_token %}
-  <input name="title" placeholder="제목" /><br>
-  <input name="release_year" placeholder="개봉년도" /><br>
-  <input name="director" placeholder="감독" /><br>
-  <input name="stars" placeholder="주연" /><br>
-  <input name="genre" placeholder="장르" /><br>
-  <input name="rating" placeholder="별점" /><br>
-  <input name="runningtime" placeholder="러닝타임" /><br>
-  <textarea name="content" cols="30" rows="10" placeholder="리뷰 내용을 작성하세요"></textarea>
-  <div>
-    <input type="submit" value="작성완료">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>myMovieReviews - Create</title>
+</head>
+<body>
+  <div class="home">
+    <h1><a href="/movie/">my<span>Movie</span>Reviews</a></h1>
   </div>
-</form>
+
+  <form action="/movie/create" method="post" class="create-card">
+    {% csrf_token %}
+    <h1>리뷰 <span>작성</span>하기</h1>
+    <input name="title" placeholder="제목" /><br>
+    <input name="release_year" placeholder="개봉년도" /><br>
+    <input name="director" placeholder="감독" /><br>
+    <input name="stars" placeholder="주연" /><br>
+    <input name="genre" placeholder="장르" /><br>
+    <input name="rating" placeholder="별점" /><br>
+    <input name="runningtime" placeholder="러닝타임" /><br>
+    <textarea name="content" cols="30" rows="10" placeholder="리뷰 내용을 작성하세요."></textarea>
+    <div>
+      <input type="submit" value="작성완료" class="create-button">
+    </div>
+  </form>
+
+</body>
+</html>
+
+<style>
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  span, .title {
+    color: rgb(219, 23, 23);
+  }
+
+  .create-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .create-button {
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(52, 192, 52);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+  }
+</style>

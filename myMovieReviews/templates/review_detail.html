@@ -1,17 +1,79 @@
-<h1>리뷰 디테일 페이지 입니다.</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="reset.css">
+  <title>myMovieReviews - Detail</title>
+</head>
+<body>
+  <div class="home">
+    <h1><a href="/movie/">my<span>Movie</span>Reviews</a></h1>
+  </div>
 
-<a href="/movie/">myMovieReviews -> 리스트 페이지로 이동</a>
-<h1>{{ review.title }}</h1>
-<p><strong>개봉년도:</strong> {{ review.release_year }}</p>
-<p><strong>감독:</strong> {{ review.director }}</p>
-<p><strong>주연:</strong> {{ review.stars }}</p>
-<p><strong>장르:</strong> {{ review.genre }}</p>
-<p><strong>별점:</strong> {{ review.rating }}</p>
-<p><strong>러닝타임:</strong> {{ review.runningtime }}</p>
-<p><strong>내용:</strong> {{ review.content }}</p>
+  <div class="update-delete">
+    <a href="update/" class="update">수정</a>
+      <form action="delete/" method="post">
+          {% csrf_token %}
+        <input type="submit" value="삭제" class="delete">
+      </form>
+  </div>
 
-<a href="update/">수정</a>
-<form action="delete/" method="post">
-  {% csrf_token %}
-<input type="submit" value="삭제">
-</form>
+      <div class="review-card">
+        <h1 class="title">{{ review.title }}</h1>
+        <p><strong>개봉년도:</strong> {{ review.release_year }}</p>
+        <p><strong>감독:</strong> {{ review.director }}</p>
+        <p><strong>주연:</strong> {{ review.stars }}</p>
+        <p><strong>장르:</strong> {{ review.genre }}</p>
+        <p><strong>별점:</strong> {{ review.rating }}</p>
+        <p><strong>러닝타임:</strong> {{ review.runningtime }}</p>
+        <p><strong>내용:</strong> {{ review.content }}</p>
+      </div>
+    
+
+</body>
+</html>
+
+<style>
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  span, .title {
+    color: rgb(219, 23, 23);
+  }
+
+  .review-card {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .update-delete {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .update {
+    margin: 5px;
+    padding: 10px;
+    background-color: rgb(52, 192, 52);
+    color: white;
+    border-radius: 10px;
+  }
+
+  .delete {
+    margin: 6px;
+    padding: 11px;
+    background-color: rgb(219, 23, 23);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  
+
+</style>

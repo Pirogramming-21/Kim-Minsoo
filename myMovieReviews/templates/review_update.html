@@ -1,16 +1,60 @@
-<h1>리뷰 수정하기</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
+    <title>myMovieReviews - Update</title>
+  </head>
+  <body>
+    <div class="home">
+      <h1><a href="/movie/">my<span>Movie</span>Reviews</a></h1>
+    </div>
 
-<form action="" method="post">
-  {% csrf_token %}
-  <input name="title" placeholder="제목" value="{{review.title}}"/><br>
-  <input name="release_year" placeholder="개봉년도" value="{{review.release_year}}"/><br>
-  <input name="director" placeholder="감독" value="{{review.director}}"/><br>
-  <input name="stars" placeholder="주연" value="{{review.stars}}"/><br>
-  <input name="genre" placeholder="장르" value="{{review.genre}}"/><br>
-  <input name="rating" placeholder="별점" value="{{review.rating}}"/><br>
-  <input name="runningtime" placeholder="러닝타임" value="{{review.runningtime}}"/><br>
-  <textarea name="content" cols="30" rows="10" placeholder="리뷰 내용을 작성하세요">{{review.content}}"</textarea>
-  <div>
-    <input type="submit" value="수정완료">
-  </div>
-</form>
+    <form action="" method="post" class="update-card">
+      {% csrf_token %}
+      <h1>리뷰 <span>수정</span>하기</h1>
+      <input name="title" placeholder="제목" value="{{review.title}}"/><br>
+      <input name="release_year" placeholder="개봉년도" value="{{review.release_year}}"/><br>
+      <input name="director" placeholder="감독" value="{{review.director}}"/><br>
+      <input name="stars" placeholder="주연" value="{{review.stars}}"/><br>
+      <input name="genre" placeholder="장르" value="{{review.genre}}"/><br>
+      <input name="rating" placeholder="별점" value="{{review.rating}}"/><br>
+      <input name="runningtime" placeholder="러닝타임" value="{{review.runningtime}}"/><br>
+      <textarea name="content" cols="30" rows="10" placeholder="리뷰 내용을 작성하세요">{{review.content}}</textarea>
+      <div>
+        <input type="submit" value="수정하기" class="update-button">
+      </div>
+    </form>
+
+  </body>
+</html>
+
+<style>
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  span, .title {
+    color: rgb(219, 23, 23);
+  }
+
+  .update-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .update-button {
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(52, 192, 52);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+  }
+</style>
