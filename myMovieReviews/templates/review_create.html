@@ -21,7 +21,7 @@
     <input name="stars" placeholder="주연" required /><br>
     <input name="genre" placeholder="장르" required /><br>
     <input name="rating" placeholder="별점" required /><br>
-    <input name="runningtime" placeholder="러닝타임" required /><br>
+    <input name="runningtime" type="number" placeholder="러닝타임(분)" value="{{ review.runningtime }}" required><br>
     <textarea name="content" cols="30" rows="10" placeholder="리뷰 내용을 작성하세요." required></textarea>
     <div>
       <input type="submit" value="작성완료" class="create-button">

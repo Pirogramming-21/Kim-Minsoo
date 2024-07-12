@@ -1,11 +1,19 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.shortcuts import render, redirect
 from .models import Review
 
 def review_list(request):
-    reviews = Review.objects.all()
+    sort_by = request.GET.get('sort', 'title')  # 기본 정렬은 제목순
+    
+    if sort_by == 'rating':
+        reviews = Review.objects.all().order_by('-rating')  # 별점 높은 순
+    elif sort_by == 'runningtime':
+        reviews = Review.objects.all().order_by('runningtime')  # 상영 시간 짧은 순
+    else:
+        reviews = Review.objects.all().order_by('title')  # 제목 오름차순
+    
     context = {
-        'reviews' : reviews
+        'reviews': reviews,
+        'current_sort': sort_by
     }
     return render(request, 'review_list.html', context)
 
@@ -24,10 +32,10 @@ def review_create(request):
             director = request.POST["director"],
             stars = request.POST["stars"],
             genre = request.POST["genre"],
-            rating = request.POST["rating"],
-            runningtime = request.POST["runningtime"],
+            rating = float(request.POST["rating"]),  # float으로 변환
+            runningtime = int(request.POST["runningtime"]),  # int로 변환
             content = request.POST["content"],
-            poster=request.FILES.get("poster")
+            poster = request.FILES.get("poster")
         )
         return redirect("/movie")
     return render(request, "review_create.html")
@@ -40,9 +48,9 @@ def review_update(request, pk):
         review.director = request.POST["director"]
         review.stars = request.POST["stars"]
         review.genre = request.POST["genre"]
-        review.rating = request.POST["rating"]
-        review.runningtime = request.POST["runningtime"]
-        review.content = request.POST["content"]
+        review.rating = float(request.POST["rating"])  # float으로 변환
+        review.runningtime = int(request.POST["runningtime"])  # int로 변환
+        review.content = request.POST["content"]  # int 변환 제거
         
         if "poster" in request.FILES:  # 새 포스터 이미지가 업로드된 경우
             review.poster = request.FILES["poster"]
@@ -53,7 +61,7 @@ def review_update(request, pk):
 
     context = {
         "review" : review
-        }
+    }
     return render(request, "review_update.html", context)
 
 def review_delete(request, pk):

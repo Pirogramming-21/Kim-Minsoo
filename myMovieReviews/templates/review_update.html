@@ -18,7 +18,7 @@
         <label for="poster">포스터 이미지:</label>
         {% if review.poster %}
           <p>현재 포스터: {{ review.poster.name }}</p>
-          <img src="{{ review.poster.url }}" alt="Current poster" style="max-width: 200px;">
+          <img src="{{ review.poster.url }}" alt="Current poster" style="max-width: 200px;"><br>
         {% endif %}
         <input type="file" id="poster" name="poster" accept="image/*">
       </div>

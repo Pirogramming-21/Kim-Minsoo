@@ -33,10 +33,11 @@
         <p><strong>주연:</strong> {{ review.stars }}</p>
         <p><strong>장르:</strong> {{ review.genre }}</p>
         <p><strong>별점:</strong> {{ review.rating }}</p>
-        <p><strong>러닝타임:</strong> {{ review.runningtime }}</p>
+        <p><strong>러닝타임:</strong> {{ review.get_runningtime_display }}</p>
       </div>
     </div>
-    <p class="review-content"><strong>내용 : </strong>{{ review.content }}</p>
+    <strong class="review-content--header">내용 : </strong>
+    <p class="review-content">{{ review.content }}</p>
 </body>
 </html>
 
@@ -108,7 +109,15 @@
   
   .review-content {
     margin: 40px;
+    margin-top: 20px;
     display: flex;
     text-align: left;
   }
+
+  .review-content--header {
+    margin-left: 40px;
+    display: flex;
+    text-align: left;
+  }
+
 </style>

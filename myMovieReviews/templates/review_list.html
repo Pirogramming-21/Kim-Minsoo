@@ -12,6 +12,13 @@
     <h1>my<span>Movie</span>Reviews</h1>
     <h4>devkev00</h4>
 
+    <div class="sort-options">
+      <a href="?sort=title" {% if current_sort == 'title' %}class="active"{% endif %}>제목순</a>
+      <a href="?sort=rating" {% if current_sort == 'rating' %}class="active"{% endif %}>별점순</a>
+      <a href="?sort=runningtime" {% if current_sort == 'runningtime' %}class="active"{% endif %}>상영시간순</a>
+    </div>
+
+
     <div class="container">
     {% for review in reviews %}
     
@@ -31,7 +38,7 @@
       <br>
       ⭐️ : {{review.rating}}
       <br>
-      ⏱️ : {{review.runningtime}}
+      ⏱️ : {{ review.get_runningtime_display }}
       </p>
     </div>
 
