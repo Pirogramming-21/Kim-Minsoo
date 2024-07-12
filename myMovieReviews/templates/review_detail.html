@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="reset.css">
   <title>myMovieReviews - Detail</title>
+
 </head>
 <body>
   <div class="home">
@@ -13,13 +14,19 @@
 
   <div class="update-delete">
     <a href="update/" class="update">수정</a>
-      <form action="delete/" method="post">
-          {% csrf_token %}
-        <input type="submit" value="삭제" class="delete">
-      </form>
+    <form action="delete/" method="post">
+      {% csrf_token %}
+      <input type="submit" value="삭제" class="delete">
+    </form>
   </div>
 
-      <div class="review-card">
+  <div class="review-card">
+    {% if review.poster %}
+      <img src="{{ review.poster.url }}" alt="{{ review.title }} 포스터" class="poster-image">
+    {% else %}
+      <div class="no-poster">포스터 이미지 없음</div>
+    {% endif %}
+      <div class="movie-more">
         <h1 class="title">{{ review.title }}</h1>
         <p><strong>개봉년도:</strong> {{ review.release_year }}</p>
         <p><strong>감독:</strong> {{ review.director }}</p>
@@ -27,10 +34,9 @@
         <p><strong>장르:</strong> {{ review.genre }}</p>
         <p><strong>별점:</strong> {{ review.rating }}</p>
         <p><strong>러닝타임:</strong> {{ review.runningtime }}</p>
-        <p><strong>내용:</strong> {{ review.content }}</p>
       </div>
-    
-
+    </div>
+    <p class="review-content"><strong>내용 : </strong>{{ review.content }}</p>
 </body>
 </html>
 
@@ -46,7 +52,7 @@
 
   .review-card {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     text-align: center;
   }
 
@@ -74,6 +80,35 @@
     font-size: 15px;
     cursor: pointer;
   }
-  
 
+  .poster-image {
+    max-width: 300px;
+    max-height: 450px;
+    object-fit: cover;
+    margin: 20px;
+    border: 1px black;
+  }
+  .no-poster {
+    width: 300px;
+    height: 450px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    border: 1px black;
+  }
+
+  .movie-more {
+    display: flex;
+    margin: 20px;
+    text-align: left;
+    flex-direction: column;
+  }
+  
+  .review-content {
+    margin: 40px;
+    display: flex;
+    text-align: left;
+  }
 </style>

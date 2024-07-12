@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="reset.css">
     <title>myMovieReviews</title>
+    
   </head>
 
   <body>  
@@ -16,8 +17,13 @@
     
     <div class="movie-card">
       <a href="/movie/detail/{{review.id}}">
-      <h2>{{review.title}}</h2>
-    </a>
+        {% if review.poster %}
+          <img src="{{ review.poster.url }}" alt="{{ review.title }} poster" class="movie-poster">
+        {% else %}
+          <div class="no-poster">No poster available</div>
+        {% endif %}
+        <h2>{{review.title}}</h2>
+      </a>
       <p>
       🗓️ : {{review.release_year}}
       <br>
@@ -34,7 +40,7 @@
     {% endfor %}
     </div>
 
-    <a href="create">나도 리뷰 작성할래요</a> 
+    <a href="create">나도 리뷰 작성할래요</a>
   </body>
 </html>
 
@@ -80,4 +86,27 @@
     font-weight: 700;
     color: rgb(219, 23, 23);
   }
+
+  .movie-poster {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  .no-poster {
+    width: 200px;
+    height: 300px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .movie-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+    
 </style>

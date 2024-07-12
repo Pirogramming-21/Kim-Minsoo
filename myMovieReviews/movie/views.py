@@ -27,6 +27,7 @@ def review_create(request):
             rating = request.POST["rating"],
             runningtime = request.POST["runningtime"],
             content = request.POST["content"],
+            poster=request.FILES.get("poster")
         )
         return redirect("/movie")
     return render(request, "review_create.html")
@@ -42,6 +43,9 @@ def review_update(request, pk):
         review.rating = request.POST["rating"]
         review.runningtime = request.POST["runningtime"]
         review.content = request.POST["content"]
+        
+        if "poster" in request.FILES:  # 새 포스터 이미지가 업로드된 경우
+            review.poster = request.FILES["poster"]
 
         review.save()
 

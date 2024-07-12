@@ -11,17 +11,25 @@
       <h1><a href="/movie/">my<span>Movie</span>Reviews</a></h1>
     </div>
 
-    <form action="" method="post" class="update-card">
-      {% csrf_token %}
+    <form action="" method="post" enctype="multipart/form-data" class="update-card">
+      {% csrf_token %}  
       <h1>리뷰 <span>수정</span>하기</h1>
-      <input name="title" placeholder="제목" value="{{review.title}}"/><br>
-      <input name="release_year" placeholder="개봉년도" value="{{review.release_year}}"/><br>
-      <input name="director" placeholder="감독" value="{{review.director}}"/><br>
-      <input name="stars" placeholder="주연" value="{{review.stars}}"/><br>
-      <input name="genre" placeholder="장르" value="{{review.genre}}"/><br>
-      <input name="rating" placeholder="별점" value="{{review.rating}}"/><br>
-      <input name="runningtime" placeholder="러닝타임" value="{{review.runningtime}}"/><br>
-      <textarea name="content" cols="30" rows="10" placeholder="리뷰 내용을 작성하세요">{{review.content}}</textarea>
+      <div>
+        <label for="poster">포스터 이미지:</label>
+        {% if review.poster %}
+          <p>현재 포스터: {{ review.poster.name }}</p>
+          <img src="{{ review.poster.url }}" alt="Current poster" style="max-width: 200px;">
+        {% endif %}
+        <input type="file" id="poster" name="poster" accept="image/*">
+      </div>
+      <input name="title" placeholder="제목" value="{{review.title}}" required /><br>
+      <input name="release_year" placeholder="개봉년도" value="{{review.release_year}}" required /><br>
+      <input name="director" placeholder="감독" value="{{review.director}}" required /><br>
+      <input name="stars" placeholder="주연" value="{{review.stars}}" required /><br>
+      <input name="genre" placeholder="장르" value="{{review.genre}}" required /><br>
+      <input name="rating" placeholder="별점" value="{{review.rating}}" required /><br>
+      <input name="runningtime" placeholder="러닝타임" value="{{review.runningtime}}" required /><br>
+      <textarea name="content" cols="30" rows="10" placeholder="리뷰 내용을 작성하세요" required>{{review.content}}</textarea>
       <div>
         <input type="submit" value="수정하기" class="update-button">
       </div>

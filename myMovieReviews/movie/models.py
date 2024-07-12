@@ -9,3 +9,4 @@ class Review(models.Model):
     rating = models.FloatField()
     runningtime = models.CharField(max_length=15)
     content = models.TextField()
+    poster = models.ImageField(upload_to='movie_posters/', null=True, blank=True)
