@@ -46,4 +46,8 @@
 과제 1. 장고걸스 블로그 만들기 실습
 ![장고걸스](https://github.com/Pirogramming-21/Kim-Minsoo/assets/173602208/f625e22f-7294-4928-ba35-6dcfe06ebe4d)
 
+과제 2. 나만의 영화리뷰 사이트 만들기
+![영화리뷰사이트 (1)](https://github.com/user-attachments/assets/3b651f54-ebed-444d-84f3-74ca4ea2129c)
+
+
 
