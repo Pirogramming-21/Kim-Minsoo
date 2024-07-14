@@ -13,14 +13,29 @@
   ">
   <ol>
     <li><a onclick="
-    document.querySelector('article').innerHTML = '안녕하세요';
+    fetch('html').then(function(response){
+      response.text().then(function(text){
+        document.querySelector('article').innerHTML = text;
+      })
+    });
       ">HTML</a>
     </li>
     <li><a onclick="
-      document.querySelector('article').innerHTML = '안녕하세요';
-      ">CSS</a>
+      fetch('css').then(function(response){
+        response.text().then(function(text){
+          document.querySelector('article').innerHTML = text;
+        })
+      });
+        ">CSS</a>
     </li>
-    
+    <li><a onclick="
+      fetch('javascript').then(function(response){
+        response.text().then(function(text){
+          document.querySelector('article').innerHTML = text;
+        })
+      });
+        ">JavaScript</a>
+    </li>
   </ol>
   <article>
 
