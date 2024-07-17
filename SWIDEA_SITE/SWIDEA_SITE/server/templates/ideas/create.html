@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
-{%block head%}
-  <title>post_create</title>
+
+{% block title %}아이디어 등록{% endblock %}
+
+{% block head %}
+  <!-- 추가적인 head 내용이 필요하다면 여기에 작성 -->
 {% endblock %}
 
-{%block content%}
-  <form enctype="multipart/form-data"
-    action="{% url 'ideas:idea_create' %}"
-    method="post"
-  >
-    {%csrf_token%} {{form.as_p}}
-    <button class="btn btn-success">등록하기</button>
-  </form>
-{%endblock%}
+{% block content %}
+  <div class="container mt-4">
+    <h2 class="mb-4">새 아이디어 등록</h2>
+    <form 
+      action="{% url 'ideas:idea_create' %}"
+      method="post"
+      enctype="multipart/form-data"
+      class="idea-form"
+    >
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-success">등록하기</button>
+    </form>
+  </div>
+{% endblock %}

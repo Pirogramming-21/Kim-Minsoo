@@ -2,19 +2,33 @@
 {% load static %}
 
 {% block title %}
-  {{ devtool.name }} - 개발 툴 상세 정보
+  <title>{{ devtools.name }} - 개발 툴 상세 정보</title>
 {% endblock %}
 
 {% block content %}
   <h2>{{ devtools.name }}</h2>
-  <p>{{ devtools.kind }}</p>
-  <p>{{ devtools.content }}</p>
+  <p><strong>종류:</strong> {{ devtools.kind }}</p>
+  <p><strong>설명:</strong> {{ devtools.content }}</p>
   <!-- 기타 필드들을 추가로 표시 -->
 
-  <hr/>
+  <h3>이 개발 툴을 사용한 아이디어들:</h3>
+  {% if devtools.ideas.all %}
+    <ul>
+      {% for idea in devtools.ideas.all %}
+        <li>
+          <a href="{% url 'ideas:idea_detail' idea.pk %}">{{ idea.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>이 개발 툴을 사용한 아이디어가 아직 없습니다.</p>
+  {% endif %}
+
   <form action="{% url 'devtools:devtool_delete' devtools.pk %}" method="POST">
     {% csrf_token %}
     <a href="{% url 'devtools:devtool_update' devtools.pk %}" class="btn btn-primary">수정하기</a>
     <button type="submit" class="btn btn-danger">삭제하기</button>
   </form>
+
+  <a href="{% url 'devtools:devtool_list' %}" class="btn btn-secondary mt-3">devtools 목록으로</a>
 {% endblock %}

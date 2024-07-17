@@ -4,6 +4,7 @@ from .forms import *
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.db.models import Case, When, BooleanField
+from django.core.paginator import Paginator
 import json
 
 def idea_list(req):   
@@ -23,9 +24,15 @@ def idea_list(req):
       ideas = Idea.objects.all().order_by('-updated_at')  # 최신순
   else:
       ideas = Idea.objects.all().order_by('created_at')  # 등록순
+  
+  paginator = Paginator(ideas, 4)  # 한 페이지당 4개의 아이디어
+  page_number = req.GET.get('page')
+  page_obj = paginator.get_page(page_number)
 
   ctx = {
-    'ideas': ideas
+    'ideas': page_obj,
+    'page_obj': page_obj,
+    'sort_option': sort_option
   }
 
   return render(req, 'ideas/list.html', ctx)

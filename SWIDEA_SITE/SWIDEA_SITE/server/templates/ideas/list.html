@@ -2,49 +2,118 @@
 {% load static %}
 
 {% block content %}
-  <a href="{% url 'ideas:idea_create' %}">아이디어 등록하기</a>
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12 text-end">
+      <form method="get" action="{% url 'ideas:idea_list' %}" class="d-inline-flex">
+        <select name="sort" class="form-select me-2">
+          <option value="nothing">--정렬기준--</option>
+          <option value="likes" {% if request.GET.sort == 'likes' %}selected{% endif %}>찜한 순</option>
+          <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>이름순</option>
+          <option value="created" {% if request.GET.sort == 'created' %}selected{% endif %}>등록순</option>
+          <option value="updated" {% if request.GET.sort == 'updated' %}selected{% endif %}>최신순</option>
+        </select>
+        <button type="submit" class="align-button">정렬</button>
+      </form>
+    </div>
+  </div>
 
-  <form method="get" action="{% url 'ideas:idea_list' %}">
-    <select name="sort" class="form-select">
-      <option value="likes" {% if request.GET.sort == 'likes' %}selected{% endif %}>찜한 순</option>
-      <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>이름순</option>
-      <option value="created" {% if request.GET.sort == 'created' %}selected{% endif %}>등록순</option>
-      <option value="updated" {% if request.GET.sort == 'updated' %}selected{% endif %}>최신순</option>
-    </select>
-    <button type="submit" class="btn btn-primary">정렬</button>
-  </form>
-
-  <ul>
+  <div class="row idea-row">
     {% for idea in ideas %}
-      <li>
-        <a href="{% url 'ideas:idea_detail' idea.id %}">
-          <img src="{{ idea.image.url }}" alt="{{ idea.name }} 썸네일">
-        </a>
-        <ul>
-          <li>
-            찜:
-            <button class="star-btn" data-idea-id="{{ idea.id }}">
-              {% if idea.starred %}
-                🌝
-              {% else %}
-                🌑
-              {% endif %}
+      <div class="col-3">
+        <div class="card h-100">
+          <div class="card-img-top position-relative">
+            <a href="{% url 'ideas:idea_detail' idea.id %}">
+              <img src="{{ idea.image.url }}" alt="{{ idea.name }} 썸네일" class="card-img-top">
+            </a>
+            <button class="star-btn position-absolute top-0 end-0 m-2 btn btn-light" data-idea-id="{{ idea.id }}">
+              {% if idea.starred %}🌝{% else %}🌑{% endif %}
             </button>
-          </li>
-          <li>
-            <a href="{% url 'ideas:idea_detail' idea.id %}">제목: {{ idea.name }}</a>
-          </li>
-          <li>예상 툴: {{ idea.expected_tools }}</li>
-          <li>
-            관심도: 
-            <button class="interest-btn minus" data-idea-id="{{ idea.id }}" data-action="decrease">-</button>
-            <span class="interest-value" data-idea-id="{{ idea.id }}">{{ idea.interest }}</span>
-            <button class="interest-btn plus" data-idea-id="{{ idea.id }}" data-action="increase">+</button>
-          </li>
-        </ul>
-      </li>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"><a href="{% url 'ideas:idea_detail' idea.id %}">{{ idea.name }}</a></h5>
+            <p class="card-text">예상 툴: {{ idea.expected_tools }}</p>
+            <div class="interest-control d-flex align-items-center">
+              관심도:
+              <button class="interest-btn minus btn btn-sm btn-outline-secondary ms-2" data-idea-id="{{ idea.id }}" data-action="decrease">-</button>
+              <span class="interest-value mx-2" data-idea-id="{{ idea.id }}">{{ idea.interest }}</span>
+              <button class="interest-btn plus btn btn-sm btn-outline-secondary" data-idea-id="{{ idea.id }}" data-action="increase">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if forloop.counter|divisibleby:4 and not forloop.last %}
+        </div><div class="row idea-row mt-4">
+      {% endif %}
     {% endfor %}
-  </ul>
+  </div>
+
+  <nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?sort={{ sort_option }}&page=1">처음</a></li>
+        <li class="page-item"><a class="page-link" href="?sort={{ sort_option }}&page={{ page_obj.previous_page_number }}">이전</a></li>
+      {% endif %}
+      <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+      {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?sort={{ sort_option }}&page={{ page_obj.next_page_number }}">다음</a></li>
+        <li class="page-item"><a class="page-link" href="?sort={{ sort_option }}&page={{ page_obj.paginator.num_pages }}">마지막</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+
+<style>
+  .container-fluid {
+    max-width: 1400px;  /* 컨테이너의 최대 너비를 설정 */
+  }
+  .card-img-top {
+    height: 150px;
+    object-fit: cover;
+  }
+  .star-btn {
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+  }
+  .interest-value {
+    min-width: 2rem;
+    text-align: center;
+  }
+  .idea-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .idea-row .col-3 {
+    flex: 0 0 auto;
+    width: 25%;
+  }
+
+  .align-button {
+    width: 80px;
+    border-radius: 10px;
+    border: none;
+    background-color: gold;
+  }
+
+  body {
+    background-image: url('{% static "images/coding.jpg" %}');
+    background-size: cover; /* 배경 이미지를 화면 크기에 맞게 조절 */
+    background-position: center; /* 배경 이미지의 위치 설정 */
+    background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
+  }
+
+  main {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  }
+
+</style>
 
   <script>
   document.querySelectorAll('.star-btn').forEach(button => {
