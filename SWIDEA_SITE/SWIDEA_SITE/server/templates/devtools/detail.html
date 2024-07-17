@@ -53,7 +53,7 @@
     <a href="{% url 'devtools:devtool_update' devtools.pk %}" class="btn btn-primary">수정하기</a>
     <form action="{% url 'devtools:devtool_delete' devtools.pk %}" method="POST">
       {% csrf_token %}
-      <button type="submit" class="btn btn-danger">삭제하기</button>
+      <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</button>
     </form>
     <a href="{% url 'devtools:devtool_list' %}" class="btn btn-secondary">목록으로</a>
   </div>
