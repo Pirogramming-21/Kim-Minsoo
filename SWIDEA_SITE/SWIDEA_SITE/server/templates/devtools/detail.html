@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  {{ devtool.name }} - 개발 툴 상세 정보
+{% endblock %}
+
+{% block content %}
+  <h2>{{ devtools.name }}</h2>
+  <p>{{ devtools.kind }}</p>
+  <p>{{ devtools.content }}</p>
+  <!-- 기타 필드들을 추가로 표시 -->
+
+  <hr/>
+  <form action="{% url 'devtools:devtool_delete' devtools.pk %}" method="POST">
+    {% csrf_token %}
+    <a href="{% url 'devtools:devtool_update' devtools.pk %}" class="btn btn-primary">수정하기</a>
+    <button type="submit" class="btn btn-danger">삭제하기</button>
+  </form>
+{% endblock %}

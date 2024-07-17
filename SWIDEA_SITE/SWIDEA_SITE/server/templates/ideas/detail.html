@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <h2>{{ idea.name }}</h2>
+  
+  <!-- 찜하기 버튼 추가 -->
+
+  <img src="{{ idea.image.url }}" alt="{{ idea.name }} 이미지">
+  <br>
+  <button id="star-btn" data-idea-id="{{ idea.pk }}" class="btn {% if idea.starred %}btn-warning{% else %}btn-outline-warning{% endif %}">
+    {% if idea.starred %}
+      🌝 찜됨
+    {% else %}
+      🌑 찜하기
+    {% endif %}
+  </button>
+  <p>내용: {{ idea.description }}</p>
+  <p>아이디어 관심도: {{ idea.interest }}</p>
+  <p>등록일: {{ idea.created_at }}</p>
+  <p>수정일: {{ idea.updated_at }}</p>
+  
+  {% if idea.devtool %}
+    <p>예상 개발툴: 
+      <a href="{% url 'devtools:devtool_detail' idea.devtool.pk %}">
+        {{ idea.get_expected_tools_display }}
+      </a>
+    </p>
+  {% else %}
+    <p>예상 개발툴: {{ idea.get_expected_tools_display }}</p>
+  {% endif %}
+
+  <a href="{% url 'ideas:idea_update' idea.pk %}">수정하기</a>
+  <form action="{% url 'ideas:idea_delete' idea.pk %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">삭제하기</button>
+  </form>
+  <a href="{% url 'ideas:idea_list' %}">목록으로</a>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const starBtn = document.getElementById('star-btn');
+      starBtn.addEventListener('click', function() {
+        const ideaId = this.dataset.ideaId;
+        const isStarred = this.textContent.trim().startsWith('🌝');
+
+        fetch(`/ideas/${ideaId}/toggle-star/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: JSON.stringify({ starred: !isStarred })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            if (data.starred) {
+              this.textContent = '🌝 찜됨';
+              this.classList.remove('btn-outline-warning');
+              this.classList.add('btn-warning');
+            } else {
+              this.textContent = '🌑 찜하기';
+              this.classList.remove('btn-warning');
+              this.classList.add('btn-outline-warning');
+            }
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      });
+    });
+  </script>
+{% endblock %}

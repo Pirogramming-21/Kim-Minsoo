@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{%block content%}
+  <title>devtool_create</title>
+  <h2>DevTool_Create</h2>
+  <br>
+  <form
+    action="{% url 'devtools:devtool_create' %}"
+    method="post"
+  >
+    {%csrf_token%} {{form.as_p}}
+    <button class="btn btn-success">추가하기</button>
+  </form>
+{%endblock%}

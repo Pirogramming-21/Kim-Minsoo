@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{%block head %}
+  <title>post_detail</title>
+{%endblock%}
+
+{%block content%}
+  <form 
+    action="{% url 'ideas:idea_update' pk=idea.pk %}"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    {%csrf_token%} {{form.as_p}}
+    <button class="btn btn-primary">수정 완료</button>
+  </form>
+{%endblock%}

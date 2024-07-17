@@ -1,0 +1,75 @@
+@import "./nomalize.css";
+
+body {
+  justify-content: center;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  background-color: #ddd;
+  height: 100vh;
+}
+
+main {
+  background-color: #fff;
+  width: 768px;
+  padding: 1rem;
+}
+
+footer {
+  display: flex;
+  justify-content: right;
+  background-color: #fff;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.search-box {
+  display: grid;
+  grid-template-columns: 1fr 0.15fr;
+}
+
+.search-box>form {
+  display: flex;
+
+}
+
+.content-wrapper {
+  padding: 10px;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  margin: 15px 0;
+}
+
+img {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.info * {
+  margin: 5px;
+}
+
+.title {
+  font-size: 1.5rem;
+  text-decoration: none;
+  padding-bottom: 5px;
+}
+
+#logo h1 {
+  margin: 20px 0;
+}
+
+#logo {
+  display: flex;
+  justify-content: center;
+}
