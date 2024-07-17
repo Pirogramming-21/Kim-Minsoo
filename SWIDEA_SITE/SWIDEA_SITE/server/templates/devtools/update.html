@@ -1,22 +1,29 @@
 {% extends 'base.html' %}
-{%block head %}
+
+{% block head %}
   <title>devtools_detail</title>
-{%endblock%}
+{% endblock %}
 
-{%block content%}
-  <form
-    action="{% url 'devtools:devtool_update' pk=devtools.pk %}"
-    method="post"
-  >
-    {%csrf_token%} {{form.as_p}}
-    <button class="btn btn-primary">수정</button>
-  </form>
+{% block content %}
+  <div class="btns d-flex justify-content-center">
+    <form
+      action="{% url 'devtools:devtool_update' pk=devtools.pk %}"
+      method="post"
+    >
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary">수정</button>
+    </form>
+  </div>
+{% endblock %}
 
-  <form
-    action="{% url 'devtools:devtool_delete' pk=devtools.pk %}"
-    method="post"
-  >
-    {%csrf_token%}
-    <button class="btn btn-danger">삭제</button>
-  </form>
-{%endblock%}
+<style>
+  .btns {
+    margin-top: 20px; /* 버튼 위에 여백 추가, 필요에 따라 조절 */
+  }
+
+  .btn {
+    display: block;
+    margin: 0 auto; /* 버튼을 중앙으로 정렬 */
+  }
+</style>

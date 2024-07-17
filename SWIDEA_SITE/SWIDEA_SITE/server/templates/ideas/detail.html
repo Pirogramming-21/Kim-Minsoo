@@ -30,12 +30,20 @@
     <p>예상 개발툴: {{ idea.get_expected_tools_display }}</p>
   {% endif %}
 
-  <a href="{% url 'ideas:idea_update' idea.pk %}" class="btn btn-secondary mt-3">수정하기</a>
-  <form action="{% url 'ideas:idea_delete' idea.pk %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">삭제하기</button>
-  </form>
-  <a href="{% url 'ideas:idea_list' %}" class="btn btn-secondary mt-3">목록으로</a>
+  <div class="btns" style="
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    ">
+    <a href="{% url 'ideas:idea_update' idea.pk %}" class="btn btn-primary">수정하기</a>
+    <form action="{% url 'ideas:idea_delete' idea.pk %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">삭제하기</button>
+    </form>
+    <a href="{% url 'ideas:idea_list' %}" class="btn btn-secondary">목록으로</a>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {

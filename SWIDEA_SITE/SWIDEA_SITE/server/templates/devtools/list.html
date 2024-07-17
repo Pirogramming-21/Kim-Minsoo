@@ -3,25 +3,68 @@
 
 {% block head %}
   <title>DevTool List</title>
+  <style>
+    .devtool-list {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .devtool-list tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .devtool-list td {
+      padding: 15px 10px;
+      color: #fff;
+    }
+    .devtool-list .name {
+      width: 15%;
+      font-weight: bold;
+    }
+    .devtool-list .name a {
+      color: #a0e0a0;
+      text-decoration: none;
+    }
+    .devtool-list .name a:hover {
+      text-decoration: underline;
+    }
+    .devtool-list .kind {
+      width: 20%;
+      color: #e0e0a0;
+    }
+    .devtool-list .content {
+      width: 65%;
+    }
+    .header {
+      text-align: center;
+      color: #a0e0a0;
+      margin-bottom: 20px;
+    }
+    .subheader {
+      text-align: center;
+      color: #fff;
+      margin-bottom: 30px;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
-
   <div class="content-wrapper">
-    <!-- DevTool 목록 -->
-    {% for devtool in devtools %}
-    <div class="mb-3">
-      <a href="{% url 'devtools:devtool_detail' devtool.pk %}">
-
-        <button type="button" class="btn btn-outline-secondary">
-          <span>{{ devtool.name }} / </span>
-          <span>{{ devtool.kind }} / </span>
-          <span>{{ devtool.content }}</span>
-        </button>
-      </a>
-    </div>
-    {% empty %}
-    <p>등록된 DevTool이 없습니다.</p>
-    {% endfor %}
+    <h1 class="header">DevTool List</h1>
+    
+    <table class="devtool-list">
+      {% for devtool in devtools %}
+        <tr>
+          <td class="name">
+            <a href="{% url 'devtools:devtool_detail' devtool.pk %}">
+              {{ devtool.name }}
+            </a>
+          </td>
+          <td class="kind">{{ devtool.kind }}</td>
+          <td class="content">{{ devtool.content }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="3">등록된 DevTool이 없습니다.</td></tr>
+      {% endfor %}
+    </table>
   </div>
 {% endblock %}
