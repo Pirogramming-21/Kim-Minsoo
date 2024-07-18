@@ -49,5 +49,9 @@
 과제 2. 나만의 영화리뷰 사이트 만들기
 ![영화리뷰사이트 (1)](https://github.com/user-attachments/assets/3b651f54-ebed-444d-84f3-74ca4ea2129c)
 
+과제 3. ERD 실습
+![ERD](https://github.com/user-attachments/assets/c0c04a5b-7fe6-41cd-8b6a-413f7711c2ea)
+
+
 
 
