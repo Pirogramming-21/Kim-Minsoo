@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile-header">
+    {% if profile_user.profile_picture %}
+        <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+    {% else %}
+        <img src="/profile_pics/piro.png" alt="Default Profile Picture" class="profile-pic">
+    {% endif %}
+    <h2>{{ profile_user.username }}</h2>
+    <p>{{ profile_user.bio }}</p>
+    {% if profile_user.website %}
+        <a href="{{ profile_user.website }}" target="_blank">{{ profile_user.website }}</a>
+    {% endif %}
+    
+    <div class="profile-stats">
+        <span>게시물 {{ posts_count }}</span>
+        <span>팔로워 {{ followers_count }}</span>
+        <span>팔로잉 {{ following_count }}</span>
+    </div>
+
+    {% if user != profile_user %}
+        {% if is_following %}
+            <button class="unfollow-btn">언팔로우</button>
+        {% else %}
+            <button class="follow-btn">팔로우</button>
+        {% endif %}
+    {% endif %}
+</div>
+
+<div class="post-grid">
+    <a href="{% url 'insta:post_create' %}">새 게시물 작성</a>
+    {% for post in posts %}
+    <div class="post-item">
+        <a href="{% url 'insta:post_detail' post.id %}">
+            <img src="{{ post.image.url }}" alt="Post Image">
+        </a>
+        <div class="post-info">
+            <p>좋아요 {{ post.likes.count }}</p>
+            <p>{{ post.caption|truncatechars:100 }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <p>아직 게시물이 없습니다.</p>
+    {% endfor %}
+</div>
+{% endblock %}

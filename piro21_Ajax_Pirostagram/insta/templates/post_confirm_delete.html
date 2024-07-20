@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>게시물 삭제 확인</h2>
+<p>정말로 이 게시물을 삭제하시겠습니까?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">삭제</button>
+</form>
+<a href="{% url 'insta:post_detail' post.id %}">취소</a>
+{% endblock %}

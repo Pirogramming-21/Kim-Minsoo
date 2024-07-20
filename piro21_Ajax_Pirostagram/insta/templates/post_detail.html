@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="post-detail">
+    <img src="{{ post.image.url }}" alt="{{ post.caption }}" width="720" height="720">
+    <p>{{ post.caption }}</p>
+    <p>Posted by: {{ post.user.username }}</p>
+    <p>Likes: {{ likes_count }}</p>
+
+    {% if user == post.user %}
+        <a href="{% url 'insta:post_update' post.id %}">Edit Post</a>
+        <a href="{% url 'insta:post_delete' post.id %}">Delete Post</a>
+    {% endif %}
+
+    <h3>Comments</h3>
+    {% for comment in comments %}
+        <div class="comment">
+            <p>{{ comment.user.username }}: {{ comment.text }}</p>
+            <small>{{ comment.created_at }}</small>
+        </div>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+
+    <h4>Add a comment</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Comment</button>
+    </form>
+</div>
+{% endblock %}
