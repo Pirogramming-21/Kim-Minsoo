@@ -9,5 +9,6 @@ urlpatterns = [
     path('/post/<int:post_id>/', post_detail, name='post_detail'),
     path('update/<int:post_id>/', post_update, name='post_update'),
     path('delete/<int:post_id>', post_delete, name='post_delete'),
+    path('like/', like_post, name='like_post'),
 
 ]

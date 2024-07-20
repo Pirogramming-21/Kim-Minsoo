@@ -36,7 +36,9 @@
             <img src="{{ post.image.url }}" alt="Post Image">
         </a>
         <div class="post-info">
-            <p>좋아요 {{ post.likes.count }}</p>
+            <button class="like-button" data-post-id="{{ post.id }}">
+                좋아요 <span class="like-count">{{ post.likes.count }}</span>
+            </button>
             <p>{{ post.caption|truncatechars:100 }}</p>
         </div>
     </div>
@@ -44,4 +46,46 @@
     <p>아직 게시물이 없습니다.</p>
     {% endfor %}
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const likeButtons = document.querySelectorAll('.like-button');
+    likeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const postId = this.getAttribute('data-post-id');
+            const likeCount = this.querySelector('.like-count');
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '{% url "insta:like_post" %}', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    likeCount.textContent = response.likes_count;
+                }
+            };
+            
+            xhr.send('post_id=' + postId);
+        });
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
 {% endblock %}

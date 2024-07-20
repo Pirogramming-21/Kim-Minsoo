@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import User, Post, Follow
+from .models import User, Post, Follow, Like
 from .forms import PostForm, CommentForm
 from django.urls import reverse
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 @login_required
 def main(request, username=None):
@@ -87,3 +89,27 @@ def post_delete(request, post_id):
         post.delete()
         return redirect(reverse('insta:main'))  # 메인 페이지로 리다이렉트
     return render(request, 'post_confirm_delete.html', {'post': post})
+
+@login_required
+@require_POST
+def like_post(request):
+    post_id = request.POST.get('post_id')
+    post = get_object_or_404(Post, id=post_id)
+    
+    user = request.user
+
+    # 좋아요가 이미 있는지 확인
+    like, created = Like.objects.get_or_create(user=user, post=post)
+    
+    if not created:
+        # 좋아요가 이미 존재하면 삭제
+        like.delete()
+        liked = False
+    else:
+        # 좋아요가 존재하지 않으면 생성
+        liked = True
+    
+    # 좋아요 수를 새로 계산
+    likes_count = Like.objects.filter(post=post).count()
+
+    return JsonResponse({'likes_count': likes_count, 'liked': liked})
