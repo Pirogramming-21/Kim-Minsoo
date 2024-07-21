@@ -53,5 +53,17 @@
 ![ERD](https://github.com/user-attachments/assets/c0c04a5b-7fe6-41cd-8b6a-413f7711c2ea)
 
 
+📌 Week 4
+
+과제 1. 아이디어 관리 사이트
+![아이디어관리사이트](https://github.com/user-attachments/assets/a00af157-ceec-4390-8b31-ab67c143909e)
+
+과제 2. 피로그래머 카드 게임 협업
+![피로그래머 카드게임](https://github.com/user-attachments/assets/3dc0ff88-50c9-45fa-bd77-42e22411978a)
+
+
+
+
+
 
 
