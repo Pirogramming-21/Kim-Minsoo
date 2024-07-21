@@ -33,15 +33,15 @@ body {
     margin-right: 30px;
 }
 
-.profile-pic {
+.profile-pic, .post-header .profile-pic {
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #ddd;
 }
 
-.profile-pic, .post-header .profile-pic {
+.profile-pic {
     width: 100px;
     height: 100px;
+    border: 2px solid #ddd;
 }
 
 .post-header .profile-pic {
@@ -297,19 +297,31 @@ button, .edit-button, .delete-button, .submit-comment, .signup-btn, .login-btn, 
     color: white;
 }
 
-.search-container {
-    position: relative;
-    margin-bottom: 20px;
+/* 검색창 */
+.search-wrapper {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+    align-items: flex-end;
+    padding-bottom: 20px;
 }
 
-#user-search {
+.search-container {
+    position: relative;
+}
+
+#user-search, #post-search {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
-#search-results {
+#user-search-results, #post-search-results {
     position: absolute;
     top: 100%;
     left: 0;
@@ -322,26 +334,61 @@ button, .edit-button, .delete-button, .submit-comment, .signup-btn, .login-btn, 
     z-index: 1000;
 }
 
-#search-results ul {
+#user-search-results ul, #post-search-results ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-#search-results li {
+#user-search-results li, #post-search-results li {
     padding: 10px;
     border-bottom: 1px solid #eee;
     display: flex;
     align-items: center;
 }
 
-#search-results li:last-child {
+#user-search-results li:last-child, #post-search-results li:last-child {
     border-bottom: none;
 }
 
 .search-result-pic {
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
     border-radius: 50%;
     margin-right: 10px;
+}
+
+#post-search-results .search-result-pic {
+    border-radius: 0;
+}
+
+#post-search-results li div {
+    flex-grow: 1;
+}
+
+#post-search-results li a {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#post-search-results li p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* 로그아웃 버튼 스타일링 */
+.profile-header {
+    position: relative;
+}
+
+.logout-btn {
+    position: absolute;
+    bottom: -50px; /* 게시물 검색창 아래로 이동 */
+    right: 0;
+    background-color: #f44336;
+    color: white;
+    padding: 5px 10px;
 }

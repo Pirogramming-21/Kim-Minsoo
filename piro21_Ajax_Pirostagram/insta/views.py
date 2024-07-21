@@ -168,3 +168,18 @@ def search_users(request):
             for user in users]
     
     return JsonResponse(data, safe=False)
+
+def search_posts(request):
+    query = request.GET.get('q', '')
+    posts = Post.objects.filter(
+        Q(caption__icontains=query) | Q(user__username__icontains=query)
+    )[:5]  # 최대 5개까지만 반환
+    
+    data = [{
+        'id': post.id,
+        'caption': post.caption,
+        'user': post.user.username,
+        'image': post.image.url if post.image else None
+    } for post in posts]
+    
+    return JsonResponse(data, safe=False)

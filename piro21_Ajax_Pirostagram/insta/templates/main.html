@@ -3,10 +3,19 @@
 {% block content %}
 <div class="profile-container">
     <div class="profile-header">
-        <div class="search-container">
-            <input type="text" id="user-search" placeholder="유저 검색...">
-            <div id="search-results"></div>
+        <!-- 검색창 컨테이너 추가 -->
+        <div class="search-wrapper">
+            <div class="search-container">
+                <input type="text" id="user-search" placeholder="유저 검색...">
+                <div id="search-results"></div>
+            </div>
+            <div class="search-container">
+                <input type="text" id="post-search" placeholder="게시물 검색...">
+                <div id="post-search-results"></div>
+            </div>
         </div>
+        
+        <!-- 로그아웃 버튼을 검색창 밑으로 이동 -->
         <div class="profile-image">
             {% if profile_user.profile_picture %}
                 <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
@@ -162,6 +171,69 @@ document.addEventListener('DOMContentLoaded', function() {
         html += '</ul>';
 
         searchResults.innerHTML = html;
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 기존의 유저 검색 코드는 그대로 유지합니다.
+
+    const postSearchInput = document.getElementById('post-search');
+    const postSearchResults = document.getElementById('post-search-results');
+
+    let postDebounceTimer;
+
+    postSearchInput.addEventListener('input', function() {
+        clearTimeout(postDebounceTimer);
+        postDebounceTimer = setTimeout(function() {
+            const query = postSearchInput.value.trim();
+            if (query.length > 0) {
+                searchPosts(query);
+            } else {
+                postSearchResults.innerHTML = '';
+            }
+        }, 300);
+    });
+
+    function searchPosts(query) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/search_posts?q=${encodeURIComponent(query)}`, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const posts = JSON.parse(xhr.responseText);
+                displayPostResults(posts);
+            } else {
+                postSearchResults.innerHTML = '<p>검색 중 오류가 발생했습니다.</p>';
+            }
+        };
+
+        xhr.onerror = function() {
+            postSearchResults.innerHTML = '<p>네트워크 오류가 발생했습니다.</p>';
+        };
+
+        xhr.send();
+    }
+
+    function displayPostResults(posts) {
+        if (posts.length === 0) {
+            postSearchResults.innerHTML = '<p>검색 결과가 없습니다.</p>';
+            return;
+        }
+
+        let html = '<ul>';
+        posts.forEach(function(post) {
+            html += `<li>
+                <img src="${post.image}" alt="Post Image" class="search-result-pic">
+                <div>
+                    <a href="/post/${post.id}">${post.caption.substring(0, 50)}${post.caption.length > 50 ? '...' : ''}</a>
+                    <p>by ${post.user}</p>
+                </div>
+            </li>`;
+        });
+        html += '</ul>';
+
+        postSearchResults.innerHTML = html;
     }
 });
 </script>
