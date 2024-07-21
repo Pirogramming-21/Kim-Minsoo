@@ -34,11 +34,14 @@ body {
 }
 
 .profile-pic {
-    width: 100px;
-    height: 100px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #ddd;
+}
+
+.profile-pic, .post-header .profile-pic {
+    width: 100px;
+    height: 100px;
 }
 
 .post-header .profile-pic {
@@ -90,7 +93,7 @@ body {
 }
 
 /* 버튼 스타일 */
-button, .edit-button, .delete-button, .submit-comment {
+button, .edit-button, .delete-button, .submit-comment, .signup-btn, .login-btn, .logout-btn {
     padding: 5px 9px;
     border: none;
     border-radius: 4px;
@@ -127,6 +130,7 @@ button, .edit-button, .delete-button, .submit-comment {
     color: #ed4956;
     font-size: 12px;
     cursor: pointer;
+    padding: 0;
 }
 
 /* 게시물 그리드 */
@@ -223,9 +227,21 @@ button, .edit-button, .delete-button, .submit-comment {
 }
 
 .comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     border-bottom: 1px solid #ddd;
     padding: 10px 0;
     margin-bottom: 12px;
+}
+
+.comment-content {
+    flex-grow: 1;
+}
+
+.comment-actions {
+    flex-shrink: 0;
+    margin-left: 10px;
 }
 
 .comment p {
@@ -263,32 +279,69 @@ button, .edit-button, .delete-button, .submit-comment {
     background-color: white;
     color: black;
     margin: 1.5rem;
-    margin-bottom: 0.5rem
+    margin-bottom: 0.5rem;
 }
 
-.comment {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-    margin-bottom: 12px;
+.signup-btn {
+    background-color: #4CAF50;
+    color: white;
 }
 
-.comment-content {
-    flex-grow: 1;
+.login-btn {
+    background-color: #008CBA;
+    color: white;
 }
 
-.comment-actions {
-    flex-shrink: 0;
-    margin-left: 10px;
+.logout-btn {
+    background-color: #f44336;
+    color: white;
 }
 
-.delete-comment-btn {
-    background: none;
-    border: none;
-    color: #ed4956;
-    font-size: 12px;
-    cursor: pointer;
+.search-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#user-search {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+#search-results ul {
+    list-style-type: none;
     padding: 0;
+    margin: 0;
+}
+
+#search-results li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+#search-results li:last-child {
+    border-bottom: none;
+}
+
+.search-result-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
 }

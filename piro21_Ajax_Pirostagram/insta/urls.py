@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'insta'
 
@@ -12,5 +14,6 @@ urlpatterns = [
     path('like/', like_post, name='like_post'),
     path('posts/<int:post_id>/add_comment/', add_comment, name='add_comment'),
     path('comments/delete_comment/<int:comment_id>/', delete_comment, name='delete_comment'),
+    path('search_users', search_users, name='search_users'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

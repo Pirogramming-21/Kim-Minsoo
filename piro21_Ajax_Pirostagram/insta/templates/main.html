@@ -3,6 +3,10 @@
 {% block content %}
 <div class="profile-container">
     <div class="profile-header">
+        <div class="search-container">
+            <input type="text" id="user-search" placeholder="유저 검색...">
+            <div id="search-results"></div>
+        </div>
         <div class="profile-image">
             {% if profile_user.profile_picture %}
                 <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
@@ -13,13 +17,21 @@
         <div class="profile-info">
             <h2>{{ profile_user.username }}</h2>
             <div class="profile-actions">
-                {% if user != profile_user %}
-                    {% if is_following %}
-                        <button class="unfollow-btn">언팔로우</button>
-                    {% else %}
-                        <button class="follow-btn">팔로우</button>
+                {% if user.is_authenticated %}
+                    {% if user != profile_user %}
+                        {% if is_following %}
+                            <button class="unfollow-btn">언팔로우</button>
+                        {% else %}
+                            <button class="follow-btn">팔로우</button>
+                        {% endif %}
                     {% endif %}
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">로그아웃</button>
+                    </form>
                 {% else %}
+                    <a href="{% url 'login' %}" class="login-btn">로그인</a>
+                    <a href="{% url 'signup' %}" class="signup-btn">회원가입</a>
                 {% endif %}
             </div>
             <div class="profile-stats">
@@ -34,7 +46,9 @@
         </div>
     </div>
 
-    <a href="{% url 'insta:post_create' %}" class="create-post-btn">게시물 작성</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'insta:post_create' %}" class="create-post-btn">게시물 작성</a>
+    {% endif %}
     <br>
     <div class="post-grid">
         {% for post in posts %}
@@ -92,5 +106,63 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('user-search');
+    const searchResults = document.getElementById('search-results');
+
+    let debounceTimer;
+
+    searchInput.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+            const query = searchInput.value.trim();
+            if (query.length > 0) {
+                searchUsers(query);
+            } else {
+                searchResults.innerHTML = '';
+            }
+        }, 300);
+    });
+
+    function searchUsers(query) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/search_users?q=${encodeURIComponent(query)}`, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const users = JSON.parse(xhr.responseText);
+                displayResults(users);
+            } else {
+                searchResults.innerHTML = '<p>검색 중 오류가 발생했습니다.</p>';
+            }
+        };
+
+        xhr.onerror = function() {
+            searchResults.innerHTML = '<p>네트워크 오류가 발생했습니다.</p>';
+        };
+
+        xhr.send();
+    }
+
+    function displayResults(users) {
+        if (users.length === 0) {
+            searchResults.innerHTML = '<p>검색 결과가 없습니다.</p>';
+            return;
+        }
+
+        let html = '<ul>';
+        users.forEach(function(user) {
+            html += `<li>
+                <img src="${user.profile_picture || '/profile_pics/piro.png'}" alt="${user.username}" class="search-result-pic">
+                <a href="/user/${user.username}">${user.username}</a>
+            </li>`;
+        });
+        html += '</ul>';
+
+        searchResults.innerHTML = html;
+    }
+});
 </script>
 {% endblock %}

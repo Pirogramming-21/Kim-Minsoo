@@ -6,6 +6,10 @@
         <a href="/"><img src="{{ post.user.profile_picture.url }}" alt="{{ post.user.username }}" class="profile-pic"></a>
         <h2>{{ post.user.username }}</h2>
     </div>
+    {% if user == post.user %}
+        <a href="{% url 'insta:post_update' post.id %}" class="edit-button">Edit</a>
+        <a href="{% url 'insta:post_delete' post.id %}" class="delete-button">Delete</a>
+    {% endif %}
     
     <div class="post-body">
         <img src="{{ post.image.url }}" alt="{{ post.caption }}" class="post-image">
@@ -15,10 +19,6 @@
                 <button class="like-button" data-post-id="{{ post.id }}">
                     🖤 <span class="like-count">{{ post.likes.count }}</span>
                 </button>
-                {% if user == post.user %}
-                    <a href="{% url 'insta:post_update' post.id %}" class="edit-button">Edit</a>
-                    <a href="{% url 'insta:post_delete' post.id %}" class="delete-button">Delete</a>
-                {% endif %}
             </div>
         </div>
     </div>

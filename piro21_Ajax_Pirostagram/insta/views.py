@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .models import *
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, CustomUserCreationForm
 from django.urls import reverse
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from django.db.models import Q
 
 @login_required
 def main(request, username=None):
@@ -87,7 +89,7 @@ def post_delete(request, post_id):
     post = get_object_or_404(Post, id=post_id, user=request.user)
     if request.method == 'POST':
         post.delete()
-        return redirect(reverse('insta:main'))  # 메인 페이지로 리다이렉트
+        return redirect(reverse('insta:main'))  
     return render(request, 'post_confirm_delete.html', {'post': post})
 
 @login_required
@@ -144,3 +146,25 @@ def delete_comment(request, comment_id):
         comment.delete()
         return JsonResponse({'success': True})
     return JsonResponse({'success': False}, status=400)
+
+def signup(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('insta:main') 
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+
+def search_users(request):
+    query = request.GET.get('q', '')
+    users = User.objects.filter(
+        Q(username__icontains=query) | Q(bio__icontains=query)
+    )[:5]  # 최대 5명까지만 반환
+    
+    data = [{'username': user.username, 'profile_picture': user.profile_picture.url if user.profile_picture else None}
+            for user in users]
+    
+    return JsonResponse(data, safe=False)

@@ -31,6 +31,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = '/login/'  # 로그인 페이지의 URL
+LOGIN_REDIRECT_URL = '/'  # 로그인 성공 후 리다이렉트할 URL
+LOGOUT_REDIRECT_URL = '/'  # 로그아웃 후 리다이렉트할 URL
 
 # Application definition
 
@@ -59,7 +62,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
