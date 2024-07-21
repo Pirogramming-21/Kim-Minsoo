@@ -1,50 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="profile-header">
-    {% if profile_user.profile_picture %}
-        <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
-    {% else %}
-        <img src="/profile_pics/piro.png" alt="Default Profile Picture" class="profile-pic">
-    {% endif %}
-    <h2>{{ profile_user.username }}</h2>
-    <p>{{ profile_user.bio }}</p>
-    {% if profile_user.website %}
-        <a href="{{ profile_user.website }}" target="_blank">{{ profile_user.website }}</a>
-    {% endif %}
-    
-    <div class="profile-stats">
-        <span>게시물 {{ posts_count }}</span>
-        <span>팔로워 {{ followers_count }}</span>
-        <span>팔로잉 {{ following_count }}</span>
-    </div>
-
-    {% if user != profile_user %}
-        {% if is_following %}
-            <button class="unfollow-btn">언팔로우</button>
-        {% else %}
-            <button class="follow-btn">팔로우</button>
-        {% endif %}
-    {% endif %}
-</div>
-
-<div class="post-grid">
-    <a href="{% url 'insta:post_create' %}">새 게시물 작성</a>
-    {% for post in posts %}
-    <div class="post-item">
-        <a href="{% url 'insta:post_detail' post.id %}">
-            <img src="{{ post.image.url }}" alt="Post Image">
-        </a>
-        <div class="post-info">
-            <button class="like-button" data-post-id="{{ post.id }}">
-                좋아요 <span class="like-count">{{ post.likes.count }}</span>
-            </button>
-            <p>{{ post.caption|truncatechars:100 }}</p>
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-image">
+            {% if profile_user.profile_picture %}
+                <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+            {% else %}
+                <img src="/profile_pics/piro.png" alt="Default Profile Picture" class="profile-pic">
+            {% endif %}
+        </div>
+        <div class="profile-info">
+            <h2>{{ profile_user.username }}</h2>
+            <div class="profile-actions">
+                {% if user != profile_user %}
+                    {% if is_following %}
+                        <button class="unfollow-btn">언팔로우</button>
+                    {% else %}
+                        <button class="follow-btn">팔로우</button>
+                    {% endif %}
+                {% else %}
+                {% endif %}
+            </div>
+            <div class="profile-stats">
+                <span><strong>{{ posts_count }}</strong> 게시물</span>
+                <span><strong>{{ followers_count }}</strong> 팔로워</span>
+                <span><strong>{{ following_count }}</strong> 팔로잉</span>
+            </div>
+            <p class="profile-bio">{{ profile_user.bio }}</p>
+            {% if profile_user.website %}
+                <a href="{{ profile_user.website }}" target="_blank" class="profile-website">{{ profile_user.website }}</a>
+            {% endif %}
         </div>
     </div>
-    {% empty %}
-    <p>아직 게시물이 없습니다.</p>
-    {% endfor %}
+
+    <a href="{% url 'insta:post_create' %}" class="create-post-btn">게시물 작성</a>
+    <br>
+    <div class="post-grid">
+        {% for post in posts %}
+        <div class="post-item">
+            <a href="{% url 'insta:post_detail' post.id %}" class="post-link">
+                <img src="{{ post.image.url }}" alt="Post Image">
+                <div class="post-overlay">
+                    <span class="post-likes">🖤 {{ post.likes.count }}</span>
+                    <span class="post-comments">💬 {{ post.comments.count }}</span>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <p class="no-posts">아직 게시물이 없습니다.</p>
+        {% endfor %}
+    </div>
 </div>
 
 <script>
@@ -86,6 +92,5 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
 </script>
 {% endblock %}

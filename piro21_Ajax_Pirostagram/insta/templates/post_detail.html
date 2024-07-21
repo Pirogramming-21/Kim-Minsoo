@@ -2,31 +2,160 @@
 
 {% block content %}
 <div class="post-detail">
-    <img src="{{ post.image.url }}" alt="{{ post.caption }}" width="720" height="720">
-    <p>{{ post.caption }}</p>
-    <p>Posted by: {{ post.user.username }}</p>
-    <p>Likes: {{ likes_count }}</p>
-
-    {% if user == post.user %}
-        <a href="{% url 'insta:post_update' post.id %}">Edit Post</a>
-        <a href="{% url 'insta:post_delete' post.id %}">Delete Post</a>
-    {% endif %}
-
-    <h3>Comments</h3>
-    {% for comment in comments %}
-        <div class="comment">
-            <p>{{ comment.user.username }}: {{ comment.text }}</p>
-            <small>{{ comment.created_at }}</small>
+    <div class="post-header">
+        <a href="/"><img src="{{ post.user.profile_picture.url }}" alt="{{ post.user.username }}" class="profile-pic"></a>
+        <h2>{{ post.user.username }}</h2>
+    </div>
+    
+    <div class="post-body">
+        <img src="{{ post.image.url }}" alt="{{ post.caption }}" class="post-image">
+        <div class="post-info">
+            <p class="post-caption">{{ post.caption }}</p>
+            <div class="post-actions">
+                <button class="like-button" data-post-id="{{ post.id }}">
+                    🖤 <span class="like-count">{{ post.likes.count }}</span>
+                </button>
+                {% if user == post.user %}
+                    <a href="{% url 'insta:post_update' post.id %}" class="edit-button">Edit</a>
+                    <a href="{% url 'insta:post_delete' post.id %}" class="delete-button">Delete</a>
+                {% endif %}
+            </div>
         </div>
-    {% empty %}
-        <p>No comments yet.</p>
-    {% endfor %}
+    </div>
 
-    <h4>Add a comment</h4>
-    <form method="post">
+    <div class="comments-section">
+    <h3>Comments</h3>
+    <div id="comments">
+        {% for comment in comments %}
+            <div class="comment" id="comment-{{ comment.id }}">
+                <div class="comment-content">
+                    <p><strong>{{ comment.user.username }}:</strong> {{ comment.text }}</p>
+                </div>
+                <div class="comment-actions">
+                    {% if comment.user == user %}
+                        <button class="delete-comment-btn" data-comment-id="{{ comment.id }}">삭제</button>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <p class="no-comments">No comments yet.</p>
+        {% endfor %}
+    </div>
+    
+    <form id="add-comment-form">
         {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit">Comment</button>
+        <div class="form-group">
+            {{ comment_form.text }}
+        </div>
+        <button type="submit" class="submit-comment">Post Comment</button>
     </form>
 </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addCommentForm = document.getElementById('add-comment-form');
+    const commentsContainer = document.getElementById('comments');
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    addCommentForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(addCommentForm);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `{% url 'insta:add_comment' post.id %}`, true);
+        xhr.setRequestHeader('X-CSRFToken', formData.get('csrfmiddlewaretoken'));
+
+        xhr.onload = function() {
+    if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        if (response.success) {
+            const newComment = document.createElement('div');
+            newComment.classList.add('comment');
+            newComment.id = `comment-${response.id}`;
+            newComment.innerHTML = `
+                <div class="comment-content">
+                    <p><strong>${response.username}:</strong> ${response.text}</p>
+                </div>
+                <div class="comment-actions">
+                    <button class="delete-comment-btn" data-comment-id="${response.id}">삭제</button>
+                </div>
+            `;
+            commentsContainer.appendChild(newComment);
+            addCommentForm.reset(); // 폼 초기화
+        } else {
+            alert('Failed to add comment');
+        }
+    }
+};
+
+        xhr.send(new FormData(addCommentForm));
+    });
+
+    commentsContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-comment-btn')) {
+            const commentId = event.target.getAttribute('data-comment-id');
+            const xhr = new XMLHttpRequest();
+            const url = `/comments/delete_comment/${commentId}/`;
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        const commentElement = document.getElementById(`comment-${commentId}`);
+                        commentElement.parentNode.removeChild(commentElement);
+                    } else {
+                        alert('Failed to delete comment');
+                    }
+                } else {
+                    alert('Error: ' + xhr.status);
+                }
+            };
+
+            xhr.send();
+        }
+    });
+
+    const likeButtons = document.querySelectorAll('.like-button');
+    likeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const postId = this.getAttribute('data-post-id');
+            const likeCount = this.querySelector('.like-count');
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '{% url "insta:like_post" %}', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    likeCount.textContent = response.likes_count;
+                }
+            };
+            
+            xhr.send('post_id=' + postId);
+        });
+    });
+});
+</script>
 {% endblock %}
+

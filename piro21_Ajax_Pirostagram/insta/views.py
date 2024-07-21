@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import User, Post, Follow, Like
+from .models import *
 from .forms import PostForm, CommentForm
 from django.urls import reverse
 from django.http import JsonResponse
@@ -113,3 +113,34 @@ def like_post(request):
     likes_count = Like.objects.filter(post=post).count()
 
     return JsonResponse({'likes_count': likes_count, 'liked': liked})
+
+@login_required
+@require_POST
+def add_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    form = CommentForm(request.POST)
+    
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.post = post
+        comment.save()
+        
+        return JsonResponse({
+            'success': True,
+            'id': comment.id,
+            'username': comment.user.username,
+            'text': comment.text,
+            'created_at': comment.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        })
+    
+    return JsonResponse({'success': False, 'errors': form.errors})
+
+@login_required
+@require_POST
+def delete_comment(request, comment_id):
+    if request.method == 'POST':
+        comment = get_object_or_404(Comment, id=comment_id)
+        comment.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False}, status=400)
