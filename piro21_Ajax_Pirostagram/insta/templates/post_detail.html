@@ -1,61 +1,87 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="post-detail">
+<div class="instagram-post">
     <div class="post-header">
-        <a href="/"><img src="{{ post.user.profile_picture.url }}" alt="{{ post.user.username }}" class="profile-pic"></a>
-        <h2>{{ post.user.username }}</h2>
-    </div>
-    {% if user == post.user %}
-        <a href="{% url 'insta:post_update' post.id %}" class="edit-button">Edit</a>
-        <a href="{% url 'insta:post_delete' post.id %}" class="delete-button">Delete</a>
-    {% endif %}
-    
-    <div class="post-body">
-        <img src="{{ post.image.url }}" alt="{{ post.caption }}" class="post-image">
-        <div class="post-info">
-            <p class="post-caption">{{ post.caption }}</p>
-            <div class="post-actions">
-                <button class="like-button" data-post-id="{{ post.id }}">
-                    🖤 <span class="like-count">{{ post.likes.count }}</span>
-                </button>
-            </div>
+        <div class="user-info">
+            <img src="{{ post.user.profile_picture.url }}" alt="{{ post.user.username }}" class="profile-pic">
+            <span class="username">{{ post.user.username }}</span>
         </div>
+        <div class="post-options">
+            {% if user == post.user %}
+                <a href="{% url 'insta:post_update' post.id %}" class="edit-button">수정</a>
+                <a href="{% url 'insta:post_delete' post.id %}" class="delete-button">삭제</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="post-image">
+        <img src="{{ post.image.url }}" alt="{{ post.caption }}">
+    </div>
+
+    <div class="post-actions">
+        <button class="action-button like-button {% if user_likes_post %}liked{% endif %}" data-post-id="{{ post.id }}">
+            <svg aria-label="좋아요" class="_ab6-" height="24" role="img" viewBox="0 0 24 24" width="24">
+                <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"></path>
+            </svg>
+        </button>
+        <button class="action-button comment-button">
+            <svg aria-label="댓글 달기" class="_ab6-" color="rgb(0, 0, 0)" fill="rgb(0, 0, 0)" height="24" role="img" viewBox="0 0 24 24" width="24">
+                <path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+        </button>
+        <button class="action-button share-button">
+            <svg aria-label="게시물 공유" class="_ab6-" color="rgb(0, 0, 0)" fill="rgb(0, 0, 0)" height="24" role="img" viewBox="0 0 24 24" width="24">
+                <line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line>
+                <polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon>
+            </svg>
+        </button>
+    </div>
+
+    <div class="post-likes">
+        좋아요 <span class="like-count">{{ post.likes.count }}</span>개
+    </div>
+
+    <div class="post-caption">
+        <span class="username">{{ post.user.username }}</span> {{ post.caption }}
     </div>
 
     <div class="comments-section">
-    <h3>Comments</h3>
-    <div id="comments">
-        {% for comment in comments %}
-            <div class="comment" id="comment-{{ comment.id }}">
-                <div class="comment-content">
-                    <p><strong>{{ comment.user.username }}:</strong> {{ comment.text }}</p>
-                </div>
-                <div class="comment-actions">
+        <div id="comments">
+            {% for comment in comments %}
+                <div class="comment" id="comment-{{ comment.id }}">
+                    <span class="username">{{ comment.user.username }}</span>
+                    {{ comment.text }}
                     {% if comment.user == user %}
                         <button class="delete-comment-btn" data-comment-id="{{ comment.id }}">삭제</button>
                     {% endif %}
                 </div>
-            </div>
-        {% empty %}
-            <p class="no-comments">No comments yet.</p>
-        {% endfor %}
+            {% empty %}
+                <p class="no-comments">아직 댓글이 없습니다.</p>
+            {% endfor %}
+        </div>
     </div>
     
-    <form id="add-comment-form">
+    <form id="add-comment-form" class="comment-form">
         {% csrf_token %}
-        <div class="form-group">
-            {{ comment_form.text }}
-        </div>
-        <button type="submit" class="submit-comment">Post Comment</button>
+        <input type="text" name="text" placeholder="댓글 달기..." required id="id_text">
+        <button type="submit" class="submit-comment">게시</button>
     </form>
 </div>
-</div>
+
+<style>
+    .like-button.liked svg {
+        color: #ed4956 !important;
+        fill: #ed4956 !important;
+    }
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const addCommentForm = document.getElementById('add-comment-form');
     const commentsContainer = document.getElementById('comments');
+    const likeButton = document.querySelector('.like-button');
+    const likeCount = document.querySelector('.like-count');
 
     function getCookie(name) {
         let cookieValue = null;
@@ -72,6 +98,45 @@ document.addEventListener('DOMContentLoaded', function() {
         return cookieValue;
     }
 
+    function updateLikeButtonState(liked) {
+        const svg = likeButton.querySelector('svg');
+        if (liked) {
+            likeButton.classList.add('liked');
+            svg.style.fill = '#ed4956';
+        } else {
+            likeButton.classList.remove('liked');
+            svg.style.fill = 'black';
+        }
+    }
+
+    likeButton.addEventListener('click', function() {
+        const postId = this.getAttribute('data-post-id');
+        
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '{% url "insta:like_post" %}', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+        
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                likeCount.textContent = response.likes_count;
+                updateLikeButtonState(response.liked);
+            } else {
+                console.error('Error:', xhr.status, xhr.statusText);
+            }
+        };
+        
+        xhr.onerror = function() {
+            console.error('Network error occurred');
+        };
+        
+        xhr.send('post_id=' + postId);
+    });
+
+    // 초기 상태 설정
+    updateLikeButtonState(likeButton.classList.contains('liked'));
+
     addCommentForm.addEventListener('submit', function(event) {
         event.preventDefault();
         
@@ -81,27 +146,24 @@ document.addEventListener('DOMContentLoaded', function() {
         xhr.setRequestHeader('X-CSRFToken', formData.get('csrfmiddlewaretoken'));
 
         xhr.onload = function() {
-    if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        if (response.success) {
-            const newComment = document.createElement('div');
-            newComment.classList.add('comment');
-            newComment.id = `comment-${response.id}`;
-            newComment.innerHTML = `
-                <div class="comment-content">
-                    <p><strong>${response.username}:</strong> ${response.text}</p>
-                </div>
-                <div class="comment-actions">
-                    <button class="delete-comment-btn" data-comment-id="${response.id}">삭제</button>
-                </div>
-            `;
-            commentsContainer.appendChild(newComment);
-            addCommentForm.reset(); // 폼 초기화
-        } else {
-            alert('Failed to add comment');
-        }
-    }
-};
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    const newComment = document.createElement('div');
+                    newComment.classList.add('comment');
+                    newComment.id = `comment-${response.id}`;
+                    newComment.innerHTML = `
+                        <span class="username">${response.username}</span>
+                        ${response.text}
+                        <button class="delete-comment-btn" data-comment-id="${response.id}">삭제</button>
+                    `;
+                    commentsContainer.appendChild(newComment);
+                    addCommentForm.reset(); // 폼 초기화
+                } else {
+                    alert('Failed to add comment');
+                }
+            }
+        };
 
         xhr.send(new FormData(addCommentForm));
     });
@@ -133,29 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
             xhr.send();
         }
     });
-
-    const likeButtons = document.querySelectorAll('.like-button');
-    likeButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            const postId = this.getAttribute('data-post-id');
-            const likeCount = this.querySelector('.like-count');
-            
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '{% url "insta:like_post" %}', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
-            
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    likeCount.textContent = response.likes_count;
-                }
-            };
-            
-            xhr.send('post_id=' + postId);
-        });
-    });
 });
 </script>
 {% endblock %}
-

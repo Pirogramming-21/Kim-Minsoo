@@ -182,7 +182,6 @@ button, .edit-button, .delete-button, .submit-comment, .signup-btn, .login-btn, 
 }
 
 .post-likes, .post-comments {
-    color: white;
     font-weight: 600;
     margin: 0 10px;
 }
@@ -391,4 +390,165 @@ button, .edit-button, .delete-button, .submit-comment, .signup-btn, .login-btn, 
     background-color: #f44336;
     color: white;
     padding: 5px 10px;
+}
+
+.instagram-post {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.username {
+    font-weight: 600;
+}
+
+.post-image img {
+    width: 100%;
+    height: auto;
+}
+
+.post-actions {
+    padding: 8px 16px;
+}
+
+.post-actions button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.post-likes {
+    padding: 0 16px;
+    font-weight: 600;
+}
+
+.post-caption {
+    padding: 8px 16px;
+}
+
+.comments-section {
+    padding: 8px 16px;
+}
+
+.comment {
+    margin-bottom: 8px;
+}
+
+.comment-form {
+    display: flex;
+    padding: 16px;
+    border-top: 1px solid #dbdbdb;
+}
+
+.comment-form input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+}
+
+.submit-comment {
+    background: none;
+    border: none;
+    color: #0095f6;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.instagram-post {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.username {
+    font-weight: 600;
+}
+
+.post-image img {
+    width: 100%;
+    height: auto;
+}
+
+.post-actions {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+}
+
+.action-button {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.like-button.liked svg {
+    fill: #ed4956;
+}
+
+.post-caption {
+    padding: 8px 16px;
+}
+
+.comments-section {
+    padding: 8px 16px;
+}
+
+.comment {
+    margin-bottom: 8px;
+}
+
+.comment-form {
+    display: flex;
+    padding: 12px 16px;
+    border-top: 1px solid #dbdbdb;
+    align-items: center;
+}
+
+.comment-form input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.submit-comment {
+    background: none;
+    border: none;
+    color: #0095f6;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 8px;
 }

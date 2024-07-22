@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
         users.forEach(function(user) {
             html += `<li>
                 <img src="${user.profile_picture || '/profile_pics/piro.png'}" alt="${user.username}" class="search-result-pic">
-                <a href="/user/${user.username}">${user.username}</a>
+                ${user.username}
             </li>`;
         });
         html += '</ul>';

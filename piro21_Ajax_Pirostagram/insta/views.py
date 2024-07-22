@@ -77,11 +77,15 @@ def post_detail(request, post_id):
     else:
         comment_form = CommentForm()
 
+    # 사용자가 이 게시물에 좋아요를 눌렀는지 확인
+    user_likes_post = Like.objects.filter(user=request.user, post=post).exists()
+
     context = {
         'post': post,
         'comments': comments,
         'comment_form': comment_form,
         'likes_count': post.likes.count(),
+        'user_likes_post': user_likes_post,  # 추가된 부분
     }
     return render(request, 'post_detail.html', context)
 
@@ -100,19 +104,15 @@ def like_post(request):
     
     user = request.user
 
-    # 좋아요가 이미 있는지 확인
     like, created = Like.objects.get_or_create(user=user, post=post)
     
     if not created:
-        # 좋아요가 이미 존재하면 삭제
         like.delete()
         liked = False
     else:
-        # 좋아요가 존재하지 않으면 생성
         liked = True
     
-    # 좋아요 수를 새로 계산
-    likes_count = Like.objects.filter(post=post).count()
+    likes_count = post.likes.count()
 
     return JsonResponse({'likes_count': likes_count, 'liked': liked})
 
