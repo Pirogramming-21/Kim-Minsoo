@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import PostForm, CommentForm, CustomUserCreationForm
@@ -219,3 +219,7 @@ def toggle_follow(request):
         'is_following': is_following,
         'follower_count': follower_count
     })
+
+def logout_view(request):
+    logout(request)
+    return redirect('insta:main')  

@@ -27,6 +27,14 @@
                 <input type="text" id="post-search" placeholder="게시물 검색...">
                 <div id="post-search-results"></div>
             </div>
+            <div class="header-actions">
+              {% if user.is_authenticated %}
+                  <form method="post" action="{% url 'logout' %}">
+                      {% csrf_token %}
+                      <button type="submit" class="logout-btn">로그아웃</button>
+                  </form>
+              {% endif %}
+          </div>
         </div>
     </div>
 </header>

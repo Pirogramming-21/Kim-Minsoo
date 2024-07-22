@@ -18,5 +18,6 @@ urlpatterns = [
     path('search_users', search_users, name='search_users'),
     path('search_posts', search_posts, name='search_posts'),
     path('toggle_follow/', toggle_follow, name='toggle_follow'),
+    path('logout/', logout_view, name='logout'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
