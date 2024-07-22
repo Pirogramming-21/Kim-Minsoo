@@ -7,6 +7,7 @@ app_name = 'insta'
 
 urlpatterns = [
     path('', main, name='main'),
+    path('profile/<str:username>/', profile, name='profile'),
     path('create/', post_create, name='post_create'),
     path('post/<int:post_id>/', post_detail, name='post_detail'),
     path('update/<int:post_id>/', post_update, name='post_update'),
@@ -16,5 +17,6 @@ urlpatterns = [
     path('comments/delete_comment/<int:comment_id>/', delete_comment, name='delete_comment'),
     path('search_users', search_users, name='search_users'),
     path('search_posts', search_posts, name='search_posts'),
+    path('toggle_follow/', toggle_follow, name='toggle_follow'),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

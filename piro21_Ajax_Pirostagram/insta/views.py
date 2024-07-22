@@ -6,15 +6,26 @@ from .forms import PostForm, CommentForm, CustomUserCreationForm
 from django.urls import reverse
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from django.db.models import Q
+from django.db.models import Q, Prefetch
+
 
 @login_required
-def main(request, username=None):
-    if username:
-        user = get_object_or_404(User, username=username)
-    else:
-        user = request.user
+def main(request):
+    posts = Post.objects.all().order_by('-created_at')
+    
+    if request.user.is_authenticated:
+        posts = posts.prefetch_related(
+            Prefetch('likes', queryset=Like.objects.filter(user=request.user), to_attr='user_like')
+        )
+    
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'main.html', context)
 
+@login_required
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
     posts = Post.objects.filter(user=user).order_by('-created_at')
     followers_count = Follow.objects.filter(following=user).count()
     following_count = Follow.objects.filter(follower=user).count()
@@ -32,7 +43,7 @@ def main(request, username=None):
         'is_following': is_following,
     }
     
-    return render(request, 'main.html', context)
+    return render(request, 'profile.html', context)
 
 
 @login_required
@@ -183,3 +194,28 @@ def search_posts(request):
     } for post in posts]
     
     return JsonResponse(data, safe=False)
+
+@require_POST
+def toggle_follow(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Login required'}, status=401)
+    
+    user_to_follow = get_object_or_404(User, username=request.POST.get('username'))
+    
+    if request.user == user_to_follow:
+        return JsonResponse({'error': 'You cannot follow yourself'}, status=400)
+    
+    follow, created = Follow.objects.get_or_create(follower=request.user, following=user_to_follow)
+    
+    if not created:
+        follow.delete()
+        is_following = False
+    else:
+        is_following = True
+    
+    follower_count = user_to_follow.followers.count()
+    
+    return JsonResponse({
+        'is_following': is_following,
+        'follower_count': follower_count
+    })

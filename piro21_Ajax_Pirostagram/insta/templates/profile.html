@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-image">
+            {% if profile_user.profile_picture %}
+                <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+            {% else %}
+                <img src="/profile_pics/piro.png" alt="Default Profile Picture" class="profile-pic">
+            {% endif %}
+        </div>
+        <div class="profile-info">
+            <h2>{{ profile_user.username }}</h2>
+            <div class="profile-actions">
+                {% if user.is_authenticated %}
+                    {% if user != profile_user %}
+                        {% if is_following %}
+                            <button class="unfollow-btn">언팔로우</button>
+                        {% else %}
+                            <button class="follow-btn">팔로우</button>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="profile-stats">
+                <span><strong>{{ posts_count }}</strong> 게시물</span>
+                <span><strong>{{ followers_count }}</strong> 팔로워</span>
+                <span><strong>{{ following_count }}</strong> 팔로잉</span>
+            </div>
+            <p class="profile-bio">{{ profile_user.bio }}</p>
+            {% if profile_user.website %}
+                <a href="{{ profile_user.website }}" target="_blank" class="profile-website">{{ profile_user.website }}</a>
+            {% endif %}
+        </div>
+    </div>
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'insta:post_create' %}" class="create-post-btn">새 게시물 작성</a>
+      {% endif %}
+    <div class="post-grid">
+        {% for post in posts %}
+        <div class="post-item">
+            <a href="{% url 'insta:post_detail' post.id %}" class="post-link">
+                <img src="{{ post.image.url }}" alt="Post Image">
+                <div class="post-overlay">
+                    <span class="post-likes">🖤 {{ post.likes.count }}</span>
+                    <span class="post-comments">💬 {{ post.comments.count }}</span>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <p class="no-posts">아직 게시물이 없습니다.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const followBtn = document.querySelector('.follow-btn, .unfollow-btn');
+    const followerCountSpan = document.querySelector('.profile-stats span:nth-child(2) strong');
+
+    if (followBtn) {
+        followBtn.addEventListener('click', function() {
+            const username = '{{ profile_user.username }}';
+            const csrftoken = getCookie('csrftoken');
+
+            fetch('{% url "insta:toggle_follow" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrftoken
+                },
+                body: `username=${username}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.is_following) {
+                    followBtn.textContent = '언팔로우';
+                    followBtn.classList.remove('follow-btn');
+                    followBtn.classList.add('unfollow-btn');
+                } else {
+                    followBtn.textContent = '팔로우';
+                    followBtn.classList.remove('unfollow-btn');
+                    followBtn.classList.add('follow-btn');
+                }
+                followerCountSpan.textContent = data.follower_count;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %}

@@ -1,88 +1,68 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="profile-container">
-    <div class="profile-header">
-        <!-- 검색창 컨테이너 추가 -->
-        <div class="search-wrapper">
-            <div class="search-container">
-                <input type="text" id="user-search" placeholder="유저 검색...">
-                <div id="search-results"></div>
-            </div>
-            <div class="search-container">
-                <input type="text" id="post-search" placeholder="게시물 검색...">
-                <div id="post-search-results"></div>
-            </div>
-        </div>
+<div class="instagram-layout">
+    <div class="main-content">
         
-        <!-- 로그아웃 버튼을 검색창 밑으로 이동 -->
-        <div class="profile-image">
-            {% if profile_user.profile_picture %}
-                <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
-            {% else %}
-                <img src="/profile_pics/piro.png" alt="Default Profile Picture" class="profile-pic">
-            {% endif %}
-        </div>
-        <div class="profile-info">
-            <h2>{{ profile_user.username }}</h2>
-            <div class="profile-actions">
-                {% if user.is_authenticated %}
-                    {% if user != profile_user %}
-                        {% if is_following %}
-                            <button class="unfollow-btn">언팔로우</button>
-                        {% else %}
-                            <button class="follow-btn">팔로우</button>
-                        {% endif %}
-                    {% endif %}
-                    <form method="post" action="{% url 'logout' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="logout-btn">로그아웃</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login' %}" class="login-btn">로그인</a>
-                    <a href="{% url 'signup' %}" class="signup-btn">회원가입</a>
-                {% endif %}
-            </div>
-            <div class="profile-stats">
-                <span><strong>{{ posts_count }}</strong> 게시물</span>
-                <span><strong>{{ followers_count }}</strong> 팔로워</span>
-                <span><strong>{{ following_count }}</strong> 팔로잉</span>
-            </div>
-            <p class="profile-bio">{{ profile_user.bio }}</p>
-            {% if profile_user.website %}
-                <a href="{{ profile_user.website }}" target="_blank" class="profile-website">{{ profile_user.website }}</a>
-            {% endif %}
-        </div>
-    </div>
-
-    {% if user.is_authenticated %}
-        <a href="{% url 'insta:post_create' %}" class="create-post-btn">게시물 작성</a>
-    {% endif %}
-    <br>
-    <div class="post-grid">
-        {% for post in posts %}
-        <div class="post-item">
-            <a href="{% url 'insta:post_detail' post.id %}" class="post-link">
-                <img src="{{ post.image.url }}" alt="Post Image">
-                <div class="post-overlay">
-                    <span class="post-likes">🖤 {{ post.likes.count }}</span>
-                    <span class="post-comments">💬 {{ post.comments.count }}</span>
+        <div class="post-feed">
+            {% for post in posts %}
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="{{ post.user.profile_picture.url|default:'/profile_pics/piro.png' }}" alt="{{ post.user.username }}" class="post-user-pic">
+                        <a href="{% url 'insta:profile' post.user.username %}" class="post-username">{{ post.user.username }}</a>
+                    </div>
+                    <div class="post-options">
+                        <svg aria-label="옵션 더 보기" class="_ab6-" color="rgb(0, 0, 0)" fill="rgb(0, 0, 0)" height="24" role="img" viewBox="0 0 24 24" width="24">
+                            <circle cx="12" cy="12" r="1.5"></circle>
+                            <circle cx="6" cy="12" r="1.5"></circle>
+                            <circle cx="18" cy="12" r="1.5"></circle>
+                        </svg>
+                    </div>
                 </div>
-            </a>
+                <a href="{% url 'insta:post_detail' post.id %}"><img src="{{ post.image.url }}" alt="Post Image" class="post-image"></a>
+                <div class="post-actions">
+                    <button class="action-button like-button {% if post.user_like %}liked{% endif %}" data-post-id="{{ post.id }}">
+                        <svg aria-label="좋아요" class="_ab6-" height="24" role="img" viewBox="0 0 24 24" width="24" style="fill: {% if post.user_like %}#ed4956{% else %}black{% endif %};">
+                            <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"></path>
+                        </svg>
+                    </button>
+                    <a href="{% url 'insta:post_detail' post.id %}" class="action-button comment-button">
+                        <svg aria-label="댓글 달기" class="_ab6-" color="rgb(0, 0, 0)" fill="rgb(0, 0, 0)" height="24" role="img" viewBox="0 0 24 24" width="24">
+                            <path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path>
+                        </svg>
+                    </a>
+                    <button class="action-button share-button">
+                        <svg aria-label="게시물 공유" class="_ab6-" color="rgb(0, 0, 0)" fill="rgb(0, 0, 0)" height="24" role="img" viewBox="0 0 24 24" width="24">
+                            <line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line>
+                            <polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <div class="post-likes">
+                    좋아요 <span class="like-count">{{ post.likes.count }}</span>개
+                </div>
+                <div class="post-caption">
+                    <strong>{{ post.user.username }}</strong> {{ post.caption }}
+                </div>
+                <a href="{% url 'insta:post_detail' post.id %}" class="view-comments">댓글 {{ post.comments.count }}개 모두 보기</a>
+            </div>
+            {% empty %}
+            <p class="no-posts">아직 게시물이 없습니다.</p>
+            {% endfor %}
         </div>
-        {% empty %}
-        <p class="no-posts">아직 게시물이 없습니다.</p>
-        {% endfor %}
     </div>
 </div>
 
 <script>
+// 좋아요 버튼 기능
 document.addEventListener('DOMContentLoaded', function() {
     const likeButtons = document.querySelectorAll('.like-button');
     likeButtons.forEach(function(button) {
         button.addEventListener('click', function() {
             const postId = this.getAttribute('data-post-id');
-            const likeCount = this.querySelector('.like-count');
+            const likeCount = this.closest('.post-card').querySelector('.like-count');
+            const likeSvg = this.querySelector('svg');
             
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '{% url "insta:like_post" %}', true);
@@ -92,7 +72,16 @@ document.addEventListener('DOMContentLoaded', function() {
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
-                    likeCount.textContent = response.likes_count;
+                    if (likeCount) {
+                        likeCount.textContent = response.likes_count;
+                    }
+                    if (response.liked) {
+                        button.classList.add('liked');
+                        if (likeSvg) likeSvg.style.fill = '#ed4956';
+                    } else {
+                        button.classList.remove('liked');
+                        if (likeSvg) likeSvg.style.fill = 'black';
+                    }
                 }
             };
             
@@ -116,6 +105,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// 사용자 검색 기능
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('user-search');
     const searchResults = document.getElementById('search-results');
@@ -164,8 +154,10 @@ document.addEventListener('DOMContentLoaded', function() {
         let html = '<ul>';
         users.forEach(function(user) {
             html += `<li>
-                <img src="${user.profile_picture || '/profile_pics/piro.png'}" alt="${user.username}" class="search-result-pic">
-                ${user.username}
+                <a href="/profile/${user.username}">
+                    <img src="${user.profile_picture || '/profile_pics/piro.png'}" alt="${user.username}" class="search-result-pic">
+                    ${user.username}
+                </a>
             </li>`;
         });
         html += '</ul>';
@@ -174,9 +166,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// 게시물 검색 기능
 document.addEventListener('DOMContentLoaded', function() {
-    // 기존의 유저 검색 코드는 그대로 유지합니다.
-
     const postSearchInput = document.getElementById('post-search');
     const postSearchResults = document.getElementById('post-search-results');
 
@@ -224,11 +215,13 @@ document.addEventListener('DOMContentLoaded', function() {
         let html = '<ul>';
         posts.forEach(function(post) {
             html += `<li>
-                <img src="${post.image}" alt="Post Image" class="search-result-pic">
-                <div>
-                    <a href="/post/${post.id}">${post.caption.substring(0, 50)}${post.caption.length > 50 ? '...' : ''}</a>
-                    <p>by ${post.user}</p>
-                </div>
+                <a href="/post/${post.id}">
+                    <img src="${post.image}" alt="Post Image" class="search-result-pic">
+                    <div>
+                        <p>${post.caption.substring(0, 50)}${post.caption.length > 50 ? '...' : ''}</p>
+                        <p>by ${post.user}</p>
+                    </div>
+                </a>
             </li>`;
         });
         html += '</ul>';
