@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.db.models import Q, Prefetch
+from io import BytesIO
 
 
 @login_required
@@ -45,7 +46,20 @@ def profile(request, username):
     
     return render(request, 'profile.html', context)
 
+# jpeg, 팔레트 모드 - RGBA, 충돌 문제 해결 위한 이미지 변환 함수
+def handle_image(image_field):
+    with Image.open(image_field) as image:
+        if image.mode in ('RGBA', 'P'):
+            # 하얀색 배경으로 새 이미지 생성
+            background = Image.new('RGB', image.size, (255, 255, 255))
+            background.paste(image, (0, 0), image if image.mode == 'RGBA' else None)
+            image = background
 
+        output = BytesIO()
+        image.save(output, format='JPEG')
+        output.seek(0)
+        return ContentFile(output.read(), name=image_field.name)
+    
 @login_required
 def post_create(request):
     if request.method == 'POST':
@@ -53,10 +67,18 @@ def post_create(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
+            
+            # 이미지 필드 처리
+            if 'image' in request.FILES:
+                image_file = request.FILES['image']
+                processed_image = handle_image(image_file)
+                post.image.save(image_file.name, processed_image)
+
             post.save()
             return redirect(reverse('insta:post_detail', kwargs={'post_id': post.id}))
     else:
         form = PostForm()
+    
     return render(request, 'post_form.html', {'form': form, 'action': 'Create'})
 
 
